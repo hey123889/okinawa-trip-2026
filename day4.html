@@ -221,7 +221,7 @@
     font-weight: 700;
     margin-bottom: 10px;
   }
-  .progress-bar {
+  .progress-bar-visual {
     display: flex;
     height: 6px;
     border-radius: 3px;
@@ -229,7 +229,7 @@
     margin: 16px 16px 0;
     gap: 2px;
   }
-  .progress-bar span {
+  .progress-bar-visual span {
     flex: 1;
     border-radius: 3px;
   }
@@ -240,10 +240,12 @@
     font-size: 10px;
     color: var(--sub);
   }
+  .now-btn{position:fixed;bottom:20px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
+  .now-btn:active{transform:scale(.95)}
+  .highlight-card{box-shadow:0 0 0 3px #ef4444 !important;transition:box-shadow .3s}
 </style>
 </head>
 <body>
-
 <div class="header">
   <a class="back" href="index.html" style="color:#fff;text-decoration:none;font-size:14px;opacity:.8">&larr; 總覽</a>
   <h1>Day 4 — 04/03 (五)</h1>
@@ -251,7 +253,7 @@
 </div>
 
 <!-- Progress bar -->
-<div class="progress-bar">
+<div class="progress-bar-visual">
   <span style="background:#e2e8f0"></span>
   <span style="background:#e2e8f0"></span>
   <span style="background:#e2e8f0"></span>
@@ -668,14 +670,66 @@
 </div>
 
 <script>
-// Persist checkbox state
-document.querySelectorAll('.checklist input').forEach((cb, i) => {
-  const key = 'day4_check_' + i;
-  cb.checked = localStorage.getItem(key) === '1';
-  cb.addEventListener('change', () => {
-    localStorage.setItem(key, cb.checked ? '1' : '0');
-  });
-});
+// Checklist localStorage
+document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day4_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
+
+// Jump to current time (JST)
+(function(){
+  function getJSTMinutes(){
+    const now=new Date();
+    const jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+    return jst.getHours()*60+jst.getMinutes();
+  }
+  function parseTime(str){
+    const m=str.match(/(\d{1,2}):(\d{2})/);
+    return m?parseInt(m[1])*60+parseInt(m[2]):null;
+  }
+  function findCurrentBlock(){
+    const blocks=document.querySelectorAll('.block');
+    let current=null,next=null;
+    const now=getJSTMinutes();
+    let times=[];
+    blocks.forEach(b=>{
+      const t=b.querySelector('.time');
+      if(!t)return;
+      const mins=parseTime(t.textContent);
+      if(mins!==null)times.push({block:b,mins:mins});
+    });
+    times.sort((a,b)=>a.mins-b.mins);
+    for(let i=times.length-1;i>=0;i--){
+      if(times[i].mins<=now){current=times[i];if(times[i+1])next=times[i+1];break;}
+    }
+    if(!current&&times.length)current=times[0];
+    return{current:current,next:next,times:times,now:now};
+  }
+  // Button
+  const DAY_DATE='2026-04-03';
+  const btn=document.createElement('button');
+  btn.className='now-btn';
+  btn.innerHTML='📍 現在';
+  btn.onclick=function(){
+    const now=new Date();
+    const jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+    const today=jst.getFullYear()+'-'+String(jst.getMonth()+1).padStart(2,'0')+'-'+String(jst.getDate()).padStart(2,'0');
+    if(today!==DAY_DATE){
+      const days=[{date:'2026-03-31',page:'day1.html'},{date:'2026-04-01',page:'day2.html'},{date:'2026-04-02',page:'day3.html'},{date:'2026-04-03',page:'day4.html'},{date:'2026-04-04',page:'day5.html'}];
+      const m=days.find(d=>d.date===today);
+      if(m){window.location.href=m.page;}else{btn.innerHTML='📍 不在旅行期間';btn.style.background='#64748b';setTimeout(()=>{btn.innerHTML='📍 現在';btn.style.background='#ef4444';},2000);}
+      return;
+    }
+    const info=findCurrentBlock();
+    if(!info.current)return;
+    const block=info.current.block;
+    block.scrollIntoView({behavior:'smooth',block:'center'});
+    const card=block.querySelector('.card');
+    if(card){card.classList.add('highlight-card');setTimeout(()=>card.classList.remove('highlight-card'),3000);}
+    const h=String(jst.getHours()).padStart(2,'0');
+    const m=String(jst.getMinutes()).padStart(2,'0');
+    btn.innerHTML='📍 '+h+':'+m;
+    setTimeout(()=>{btn.innerHTML='📍 現在';},3000);
+  };
+  document.body.appendChild(btn);
+})();
 </script>
 
 </body>
