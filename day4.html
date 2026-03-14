@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 4 — 水族館＋萬座毛</title>
+<style>
+  :root {
+    --blue: #0ea5e9;
+    --green: #10b981;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --gray: #64748b;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --sub: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding-bottom: 80px;
+  }
+  .header {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    color: white;
+    padding: 24px 20px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 { font-size: 20px; font-weight: 700; }
+  .header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .timeline {
+    padding: 16px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .block {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 52px;
+  }
+  .dot {
+    position: absolute;
+    left: 22px;
+    top: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid var(--blue);
+    background: white;
+    z-index: 1;
+  }
+  .dot.drive { border-color: var(--gray); background: var(--gray); }
+  .dot.food { border-color: var(--orange); background: var(--orange); }
+  .dot.spot { border-color: var(--green); background: var(--green); }
+  .dot.rest { border-color: var(--purple); background: var(--purple); }
+  .dot.ticket { border-color: var(--blue); background: var(--blue); }
+  .time {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    margin-bottom: 4px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card p, .card li {
+    font-size: 14px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+  .card ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .card ul li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-left: 4px;
+  }
+  .tag.drive { background: #f1f5f9; color: var(--gray); }
+  .tag.min { background: #f1f5f9; color: var(--gray); }
+  .tag.free { background: #dcfce7; color: #16a34a; }
+  .tag.important { background: #fef3c7; color: #d97706; }
+  .tag.wheelchair { background: #ede9fe; color: #7c3aed; }
+  .checklist {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 16px 0;
+  }
+  .checklist h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .checklist label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+  .checklist input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    flex-shrink: 0;
+    accent-color: var(--green);
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--blue);
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+  .nav-btn:active { opacity: 0.8; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  .cost-table td {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cost-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .cost-table tr:last-child td {
+    border-bottom: none;
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 15px;
+  }
+  .ticket-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 10px;
+  }
+  .ticket-box h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .ticket-box p {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+  .summary {
+    margin: 20px 16px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+  }
+  .summary h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .progress-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 16px 16px 0;
+    gap: 2px;
+  }
+  .progress-bar span {
+    flex: 1;
+    border-radius: 3px;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 16px 0;
+    font-size: 10px;
+    color: var(--sub);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="index.html" style="color:#fff;text-decoration:none;font-size:14px;opacity:.8">&larr; 總覽</a>
+  <h1>Day 4 — 04/03 (五)</h1>
+  <p>美麗海水族館 + 萬座毛夕陽 + 阿古豬晚餐</p>
+</div>
+
+<!-- Progress bar -->
+<div class="progress-bar">
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+  <span style="background:#e2e8f0"></span>
+</div>
+<div class="progress-labels">
+  <span>09:30</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span>
+</div>
+
+<!-- Checklist -->
+<div class="checklist">
+  <h3>出門前確認</h3>
+  <label><input type="checkbox"> 身心障礙手冊 x2（正本）</label>
+  <label><input type="checkbox"> 手機 Trip.com QR Code 截圖 x5</label>
+  <label><input type="checkbox"> 輪椅 x2</label>
+  <label><input type="checkbox"> 防曬 / 帽子 / 薄外套</label>
+  <label><input type="checkbox"> 現金（午餐+門票+晚餐 ~&yen;7,000/人）</label>
+</div>
+
+<!-- Timeline -->
+<div class="timeline">
+
+  <!-- 早餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">07:30 - 08:30</div>
+    <div class="card">
+      <h3>早餐（別墅自炊 or 便利商店）</h3>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:8px;">今天趕水族館，早餐快速解決</p>
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          A. 別墅自炊 <span class="tag important">推薦</span>
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          前一晚超市/便利商店買好食材 → 吐司+煎蛋+咖啡+水果<br>
+          別墅有廚房（瓦斯爐、冰箱、微波爐）<br>
+          9 人食材 ~&yen;3,500（每人不到 &yen;400）<br>
+          吃完直接出發，最省時
+        </p>
+      </div>
+      <details style="margin-top:8px;">
+        <summary style="font-size:13px;font-weight:600;cursor:pointer;">其他早餐選項</summary>
+        <div style="margin-top:6px;">
+          <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+            <strong>B. FamilyMart 恩納冨着店</strong> — 車程 2 分，前一晚回來時順路買<br>
+            <strong>C. シーサイドドライブイン</strong> — 車程 10 分，08:00 開，美式復古（北上順路）~&yen;800/人<br>
+            &emsp;1967 年創業老店，面海座位，モーニングセット附招牌スープ<br>
+            &emsp;輪椅 OK（バリアフリー）・週三定休（今天五 OK）
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 09:15 上車 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">09:15</div>
+    <div class="card">
+      <h3>上車出發</h3>
+      <ul>
+        <li>車1：司機 + 輪椅A + 陪同 + 2人（5人）</li>
+        <li>車2：司機 + 輪椅B + 陪同 + 1人（4人）</li>
+        <li>輪椅折疊放後車廂</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 09:30 出發 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">09:30</div>
+    <div class="card">
+      <h3>出發往北 <span class="tag min">43 分 / 32.6km</span></h3>
+      <p>國道 58 號沿海岸線北上，不需高速公路</p>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/沖縄美ら海水族館" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 10:15 抵達 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">10:15</div>
+    <div class="card">
+      <h3>抵達美麗海水族館</h3>
+
+      <img src="https://churaumi.okinawa/userfiles/fish_images/kuroshio/zinbe1.jpg" alt="美麗海水族館 鯨鯊" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <ul>
+        <li>停車：<strong>P7 北口駐車場</strong>（免費，最靠近入口）</li>
+        <li>有身障專用車位（藍色標線，靠電梯口）</li>
+        <li>P7 電梯上去 → 步行 3 分鐘到入口</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 10:25 購票 -->
+  <div class="block">
+    <div class="dot ticket"></div>
+    <div class="time">10:25</div>
+    <div class="card">
+      <h3>購票入場</h3>
+
+      <div class="ticket-box">
+        <h4>A 組：身障免費（4人）→ 有人窗口</h4>
+        <p>
+          出示 2 本身心障礙手冊<br>
+          日文：「障害者手帳です。1名ずつ付き添いがいます」<br>
+          → 取得 4 張免費票 → 入場
+        </p>
+      </div>
+
+      <div class="ticket-box" style="margin-top:8px; background:#f0fdf4; border-color:#bbf7d0;">
+        <h4>B 組：Trip.com（5人）→ 閘門掃碼</h4>
+        <p>
+          開手機 Trip.com APP 或截圖<br>
+          → 掃 QR Code 入場<br>
+          若需換票 → 旁邊引換櫃台
+        </p>
+      </div>
+
+      <p style="margin-top:10px; font-size:13px; color:#d97706; font-weight:600;">
+        建議 A 組先排，人工窗口較慢，B 組掃碼快
+      </p>
+    </div>
+  </div>
+
+  <!-- 10:30 逛水族館 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">10:30</div>
+    <div class="card">
+      <h3>逛水族館 <span class="tag wheelchair">全程無障礙</span></h3>
+      <p style="margin-bottom:8px;">路線：4F → 2F → <strong>4F 吃飯</strong> → 1F 紀念品（不走回頭路）</p>
+      <ul>
+        <li><strong>10:30 — 4F</strong> 觸摸池 — 摸海星、海參（~20 分）</li>
+        <li><strong>10:50 — 3F</strong> 珊瑚之海 — 熱帶魚（~20 分）</li>
+        <li><strong>11:10 — 2F 黑潮之海</strong> — 鯨鯊、鬼蝠魟（重頭戲，待 30-40 分）</li>
+        <li><strong>11:50 — 搭電梯回 4F</strong> → 午餐 INOH（12:00 吃人少）</li>
+        <li><strong>12:50 — 1F</strong> 深海區 + 紀念品商店（~30 分）</li>
+        <li><strong>13:20</strong> — 出館 → 停車場</li>
+      </ul>
+      <div class="sim-box">
+        <h4>為什麼先吃再逛 1F？</h4>
+        <p>
+          INOH 在 4F，如果逛到 1F 再回 4F 吃 = 走回頭路<br>
+          2F 黑潮之海看完 → 直接上 4F 吃 → 吃飽下 1F 買紀念品 → 出館<br>
+          而且 12:00 吃比 13:00 人少，不用排隊
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12:00 午餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">12:00</div>
+    <div class="card">
+      <h3>午餐 Restaurant INOH <span class="tag min">4F・限時 50 分</span></h3>
+
+      <img src="https://churaumi.okinawa/userfiles/images/area/restaurant/01/ino0701.jpg" alt="Restaurant INOH 自助餐" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <ul>
+        <li>2F 黑潮之海看完 → 搭電梯回 4F</li>
+        <li>沖繩料理自助餐 &yen;2,600/人</li>
+        <li>限時 50 分鐘（12:00-12:50）</li>
+        <li>不需預約，130 席，<strong>12:00 比 13:00 人少</strong></li>
+        <li>輪椅可直接入座（桌面加寬）</li>
+      </ul>
+      <p style="margin-top:8px; font-size:13px; color:var(--sub);">
+        沖繩麵 / 海葡萄 / 苦瓜炒蛋 / 紫薯甜點
+      </p>
+
+      <details style="margin-top:10px;">
+        <summary style="font-size:14px;font-weight:600;cursor:pointer;color:var(--text);">其他午餐選項（水族館附近）</summary>
+        <div style="margin-top:8px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              海人料理 海邦丸 <span class="tag min">車程 3 分（花開市集）</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              海鮮丼・&yen;1,000~2,000/人<br>
+              新設施，無障礙應 OK<br>
+              電話：0980-48-3343
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄美ら海水族館/海人料理+海邦丸" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              百年古家 大家（うふやー）<span class="tag min">車程 20 分（回程順路）</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              阿古豬 / 沖繩麵・&yen;1,000~4,000/人<br>
+              百年古民家餐廳，風景超美<br>
+              <strong>輪椅注意：</strong>古民家可能有階梯，需確認<br>
+              電話：0980-53-0280
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄美ら海水族館/百年古家+大家+うふやー" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 13:30 離開 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">13:30</div>
+    <div class="card">
+      <h3>前往花開市集 <span class="tag min">7 分 / 2.1km</span></h3>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄美ら海水族館/ハナサキマルシェ" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 13:40 花開市集 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">14:10</div>
+    <div class="card">
+      <h3>花開市集（下午茶）<span class="tag wheelchair">平地</span></h3>
+
+      <img src="https://www.okinawastory.jp/files/attractions/600/011/355/images_9665caba1baa6419cbbab06d0200386f702f18d0-w800.jpg" alt="花開市集" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <ul>
+        <li><strong>Potama 豬肉蛋飯糰</strong> ~&yen;500/個</li>
+        <li>星巴克（步行 1 分）— 沖繩限定杯</li>
+        <li>海風超市（步行 2 分）— 土產、黑糖</li>
+        <li>御菓子御殿 — 紅芋塔</li>
+      </ul>
+      <p style="margin-top:8px; font-size:13px; color:var(--sub);">
+        停留約 35 分鐘
+      </p>
+    </div>
+  </div>
+
+  <!-- 14:45 回程 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">14:45</div>
+    <div class="card">
+      <h3>回飯店 <span class="tag min">60 分 / 42.3km</span></h3>
+      <p>國道 58 號南下，沿海岸線，車上可小睡</p>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/ハナサキマルシェ/沖縄県恩納村冨着988-10" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 16:00 休息 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">16:00</div>
+    <div class="card">
+      <h3>回飯店休息</h3>
+      <ul>
+        <li>自由時間 1.5 小時</li>
+        <li>泡澡、充電、整理照片</li>
+        <li>晚餐 19:00 已預約，不用擔心</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 17:15 萬座毛 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">17:15</div>
+    <div class="card">
+      <h3>出發看夕陽 <span class="tag min">16 分 / 11.3km</span></h3>
+      <p style="font-size:13px;color:var(--sub);">提早出發，確保趕上售票時間</p>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/万座毛" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 17:30 萬座毛 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">17:30</div>
+    <div class="card">
+      <h3>萬座毛 <span class="tag wheelchair">木棧道</span></h3>
+
+      <img src="https://www.okinawastory.jp/files/attractions/000/001/388/images_hHI8aIEP0ytJxhEzA98wNeOp8jHNVv0r8rjgrv4V-w800.jpg" alt="萬座毛 象鼻岩" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <ul>
+        <li>入場 &yen;100/人（售票口 1F）</li>
+        <li><strong>售票到 18:00</strong>（4月營業到 18:30 閉園）</li>
+        <li>無障礙木棧道一圈 15-20 分鐘</li>
+        <li>象鼻岩、斷崖絕壁</li>
+      </ul>
+      <div style="margin-top:10px; background:#fef3c7; border-radius:8px; padding:10px 12px;">
+        <p style="font-size:15px; font-weight:700; color:#d97706; margin:0;">
+          日落 18:46
+        </p>
+        <p style="font-size:13px; color:#92400e; margin:4px 0 0;">
+          17:30 到 → 買票入場 → 18:00 前走到觀景台卡位
+        </p>
+      </div>
+      <div class="warn-box">
+        <h4>雨天備案</h4>
+        <p>
+          下雨看不到夕陽 → <strong>跳過萬座毛</strong><br>
+          改為：飯店繼續休息到 18:30，直接去しまぶた屋晚餐<br>
+          （省 1 小時車程，老人家更輕鬆）
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18:55 晚餐移動 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">18:55</div>
+    <div class="card">
+      <h3>前往晚餐 <span class="tag min">19 分 / 13.5km</span></h3>
+      <p>從萬座毛直接去，不回飯店</p>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/万座毛/しまぶた屋+恩納本店" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 19:10 晚餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">19:10</div>
+    <div class="card">
+      <h3>晚餐 しまぶた屋</h3>
+
+      <img src="https://okinawa-sinka.jp/assets/img/index/h2_img.png" alt="しまぶた屋 阿古豬蒸籠" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <ul>
+        <li>已預約 19:00 / 9人 / 輪椅x2 / 桌席</li>
+        <li>阿古豬蒸籠套餐 &yen;3,500-4,500/人</li>
+        <li>有自家停車場</li>
+        <li>1F 平面入口，輪椅 OK</li>
+        <li>用餐約 1.5 小時</li>
+      </ul>
+      <p style="margin-top:8px; font-size:13px; color:var(--sub);">
+        電話：098-966-1450
+      </p>
+
+      <details style="margin-top:10px;">
+        <summary style="font-size:14px;font-weight:600;cursor:pointer;color:var(--text);">其他晚餐選項（恩納村）</summary>
+        <div style="margin-top:8px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              あぐーの隠れ家 冨着店 <span class="tag min">車程 10 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              阿古豬涮涮鍋・&yen;4,000~6,000/人<br>
+              輪椅需確認<br>
+              <strong>有免費飯店接送服務</strong><br>
+              週四定休（4/2 不可、4/3 OK）<br>
+              電話：098-966-2988
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/あぐーの隠れ家+冨着店" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              琉球の牛 恩納 <span class="tag important">超熱門</span> <span class="tag min">車程 10 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              高級燒肉・&yen;5,000~8,000/人<br>
+              輪椅需確認<br>
+              <strong>非常熱門，需提早 2 週以上預約</strong><br>
+              電話：098-965-2233
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/琉球の牛+恩納" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 20:40 回飯店 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">20:40</div>
+    <div class="card">
+      <h3>回飯店 <span class="tag min">19 分</span></h3>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/しまぶた屋+恩納本店/沖縄県恩納村冨着988-10" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 21:00 到家 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">21:00</div>
+    <div class="card">
+      <h3>回到別墅</h3>
+      <ul>
+        <li>洗澡、休息</li>
+        <li>整理行李（明天 D5 退房）</li>
+        <li style="color:#ef4444; font-weight:600;">提醒：明天 10:00 退房，遲退 &yen;11,000/hr</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- Cost summary -->
+<div class="summary">
+  <h3>Day 4 費用估算</h3>
+  <table class="cost-table">
+    <tr><td>水族館門票（5人）</td><td>NT$2,080</td></tr>
+    <tr><td>午餐 INOH（9人 x &yen;2,600）</td><td>&yen;23,400</td></tr>
+    <tr><td>花開市集 Potama 等</td><td>~&yen;4,500</td></tr>
+    <tr><td>萬座毛入場（9人）</td><td>&yen;900</td></tr>
+    <tr><td>晚餐 しまぶた屋（9人）</td><td>~&yen;36,000</td></tr>
+    <tr><td>油資（~88km）</td><td>~&yen;1,500</td></tr>
+    <tr><td>合計 / 每人約</td><td>~NT$1,749</td></tr>
+  </table>
+</div>
+
+<div style="text-align:center;padding:20px;display:flex;gap:12px;justify-content:center;">
+  <a class="nav-btn" href="day3.html" style="background:#64748b;">&larr; Day 3</a>
+  <a class="nav-btn" href="day5.html" style="background:#8b5cf6;">Day 5 &rarr;</a>
+</div>
+
+<script>
+// Persist checkbox state
+document.querySelectorAll('.checklist input').forEach((cb, i) => {
+  const key = 'day4_check_' + i;
+  cb.checked = localStorage.getItem(key) === '1';
+  cb.addEventListener('change', () => {
+    localStorage.setItem(key, cb.checked ? '1' : '0');
+  });
+});
+</script>
+
+</body>
+</html>

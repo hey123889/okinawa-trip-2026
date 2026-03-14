@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 3 — 北上恩納</title>
+<style>
+  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px}
+  .header{background:linear-gradient(135deg,#10b981,#14b8a6);color:#fff;padding:24px 20px 20px;position:sticky;top:0;z-index:100}
+  .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:14px;opacity:.8}
+  .timeline{padding:16px;position:relative}.timeline::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:2px;background:var(--border)}
+  .block{position:relative;margin-bottom:20px;padding-left:52px}
+  .dot{position:absolute;left:22px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid var(--blue);background:#fff;z-index:1}
+  .dot.drive{border-color:var(--gray);background:var(--gray)}.dot.food{border-color:var(--orange);background:var(--orange)}.dot.spot{border-color:var(--green);background:var(--green)}.dot.rest{border-color:var(--purple);background:var(--purple)}
+  .time{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px}
+  .card{background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .card p,.card li{font-size:14px;color:var(--sub);line-height:1.7}
+  .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
+  .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+
+  .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
+  .sim-box p{font-size:13px;color:var(--sub);line-height:1.8}
+  .warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .warn-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#d97706}
+  .warn-box p{font-size:13px;color:#92400e;line-height:1.8}
+  .checklist{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:16px 16px 0}
+  .checklist h3{font-size:15px;font-weight:700;margin-bottom:8px}
+  .checklist label{display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer}
+  .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green)}
+  .summary{margin:20px 16px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .summary h3{font-size:16px;font-weight:700;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="index.html">&larr; 總覽</a>
+  <h1>Day 3 — 04/02 (四)</h1>
+  <p>退房那霸 → 港川外人住宅 → 來客夢 → 入住恩納別墅</p>
+</div>
+
+<div class="checklist">
+  <h3>退房前確認</h3>
+  <label><input type="checkbox"> 10:00 前退房</label>
+  <label><input type="checkbox"> 3 間房間都檢查（充電器、洗漱用品）</label>
+  <label><input type="checkbox"> 歸還洗澡椅給櫃台</label>
+  <label><input type="checkbox"> 全部行李上車（2 台 Alphard）</label>
+  <label><input type="checkbox"> 停車場繳費取車</label>
+  <label><input type="checkbox"> 焼肉なべしま 12:30 已預約</label>
+  <label><input type="checkbox"> NAKAMA 18:30 已預約</label>
+</div>
+
+<div class="timeline">
+
+  <!-- 早餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">07:30 - 08:30</div>
+    <div class="card">
+      <h3>早餐（10:00 退房前吃完）</h3>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:8px;">飯店無附早餐。今天退房要帶所有行李，建議在房間吃完再收拾。</p>
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          推薦：前一晚買好 + 早上買飯糰
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          1. 前一晚在 FamilyMart 買好麵包、飲料放房間<br>
+          2. 07:30 派 1-2 人去<strong>豬肉蛋飯糰（ポーたま）</strong>買回來<br>
+          &emsp;（步行 8 分，07:00 開店，早去不用排）<br>
+          3. 在房間吃完 → 09:30 收拾退房
+        </p>
+      </div>
+      <details style="margin-top:8px;">
+        <summary style="font-size:13px;font-weight:600;cursor:pointer;">其他早餐選項</summary>
+        <div style="margin-top:6px;">
+          <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+            <strong>C&C BREAKFAST</strong> — 09:00 開，鬆餅 ~&yen;1,500/人（步行 10 分，先退房寄行李再去）<br>
+            <strong>牧志市場 2F 食堂</strong> — 08:00 開，有電梯，~&yen;800/人（步行 8 分）
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 退房 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">09:30</div>
+    <div class="card">
+      <h3>退房準備</h3>
+      <div class="sim-box">
+        <h4>模擬：退房 + 行李上車</h4>
+        <p>
+          1. 09:30 開始整理、打包<br>
+          2. 3 間房間各自檢查（床底、浴室、充電插座旁）<br>
+          3. 歸還洗澡椅到 1F 櫃台<br>
+          4. 退房（鑰匙交櫃台）<br>
+          5. <strong>搬行李上車：</strong><br>
+          &emsp;- 2 位司機先去停車場取車（Times 牧志，步行 5 分）<br>
+          &emsp;- 開到飯店門口臨停<br>
+          &emsp;- 行李 + 輪椅裝車<br>
+          &emsp;- 今天開始是「大行李跟車」模式<br>
+          &emsp;- Alphard 後排座椅 + 後廂 = 可放 4-5 個大行李箱 + 1 輪椅<br>
+          6. 10:00 出發
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 港川 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">10:00</div>
+    <div class="card">
+      <h3>開車到港川外人住宅 <span class="tag min">19 分 / 7.3km</span></h3>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/港川外人住宅" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">10:20</div>
+    <div class="card">
+      <h3>港川外人住宅</h3>
+
+      <img src="https://www.okinawastory.jp/files/attractions/600/010/476/images_BwF3tru53ZRxeMhCXOlkPR5heYUb9FJZaFdVvI6x-w800.jpg" alt="港川外人住宅" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：輪椅在港川</h4>
+        <p>
+          <strong>港川外人住宅 = 美式小屋改建的文青聚落</strong><br>
+          <br>
+          <strong>停車：</strong>區域外圍有幾個小停車場<br>
+          巷弄內路窄，Alphard 可以開進去但不好停<br>
+          建議停在外圍走進去<br>
+          <br>
+          <strong>輪椅注意：</strong><br>
+          - 多數小路是平坦柏油路，輪椅可推<br>
+          - 但有些店門口有 1-2 階台階<br>
+          - 建議輪椅使用者在<strong>路邊座位區等候</strong>，其他人分頭進店逛<br>
+          - 有些咖啡廳有戶外座位，輪椅可入<br>
+          <br>
+          <strong>可以做的事：</strong><br>
+          - 拍照（彩色小屋很好拍）<br>
+          - 買杯咖啡外帶坐外面喝<br>
+          - 逛雜貨小物<br>
+          <br>
+          停留約 1 小時
+        </p>
+      </div>
+      <div class="warn-box">
+        <h4>雨天備案</h4>
+        <p>
+          港川小巷下雨不方便（輪椅更麻煩）<br>
+          <strong>雨天改去：</strong>直接開到來客夢 AEON，早點到慢慢逛<br>
+          來客夢是室內，下雨完全不影響
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 來客夢 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">11:20</div>
+    <div class="card">
+      <h3>開車到來客夢 AEON <span class="tag min">27 分 / 12.5km</span></h3>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/港川外人住宅/イオンモール沖縄ライカム" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">11:50</div>
+    <div class="card">
+      <h3>永旺夢樂城沖繩來客夢 <span class="tag wheelchair">全館無障礙</span></h3>
+      <img src="https://www.kitapo.jp/userfiles/images/spot/ion_1.jpg" alt="AEON Mall 來客夢" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：來客夢動線</h4>
+        <p>
+          <strong>沖繩最大 AEON MALL</strong>，超級好逛<br>
+          <br>
+          <strong>停車：</strong>4,000 個車位，不怕沒位<br>
+          建議停 1F 平面或靠電梯的樓層<br>
+          身障車位在各入口附近<br>
+          <br>
+          <strong>輪椅：</strong>全館無障礙，通道超寬敞<br>
+          每層都有無障礙廁所<br>
+          比那霸的 AEON 寬敞很多<br>
+          <br>
+          先去 5F なべしま 午餐（已預約 12:30）<br>
+          搭電梯直上 5F
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 午餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">12:30</div>
+    <div class="card">
+      <h3>午餐 焼肉なべしま <span class="tag important">已預約 12:30</span></h3>
+
+      <img src="https://www.nabeshima-jp.com/engine/wp-content/uploads/2024/09/aeonmallokinawarycam01.jpg" alt="焼肉なべしま" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="warn-box" style="margin-bottom:10px;">
+        <h4>注意：今天午餐晚餐都是燒肉</h4>
+        <p>
+          午餐なべしま（燒肉）→ 晚餐 NAKAMA（燒肉）<br>
+          老人家可能吃不消連兩頓燒肉<br>
+          <strong>建議替換午餐：</strong>88 Jr. 牛排、串家物語串炸、HAN'S 牛排（見下方其他選項）
+        </p>
+      </div>
+      <div class="sim-box">
+        <h4>模擬：なべしま用餐</h4>
+        <p>
+          5F 搭電梯到 → 報預約「12:30、9名、陳」<br>
+          <br>
+          <strong>個室（包廂）：</strong>已預約 6-12 人個室<br>
+          - 個室有門，隱私好<br>
+          - 桌子是一般高度（非榻榻米），輪椅可直接入座<br>
+          - 空間大，2 台輪椅放得下<br>
+          <br>
+          燒肉 &yen;1,800 起/人<br>
+          有排煙設備，不會全身臭<br>
+          用餐約 1-1.5 小時
+        </p>
+      </div>
+      <p style="margin-top:6px;font-size:13px;color:var(--sub);">電話：098-923-5529</p>
+
+      <details style="margin-top:10px;">
+        <summary style="font-size:14px;font-weight:600;cursor:pointer;color:var(--text);">其他午餐選項（來客夢內）</summary>
+        <div style="margin-top:8px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              ステーキハウス 88 Jr.+ <span class="tag min">2F・78 席</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              沖繩牛排・&yen;1,000~2,000/人<br>
+              飯湯沙拉吃到飽，輕鬆快速
+            </p>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              串家物語 <span class="tag min">5F・96 席</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              串炸吃到飽・平日 &yen;2,000/人<br>
+              自己炸串，有趣體驗
+            </p>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              JUMBO STEAK HAN'S <span class="tag min">4F・78 席</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              大份量牛排・&yen;1,000~3,000/人<br>
+              美式風格，份量驚人
+            </p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 繼續逛 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">14:00</div>
+    <div class="card">
+      <h3>繼續逛來客夢</h3>
+      <div class="sim-box">
+        <h4>可以分組行動</h4>
+        <p>
+          MALL 很大，不用全部人一起走<br>
+          <br>
+          <strong>逛街組：</strong>年輕人自由逛（衣服、雜貨、電器）<br>
+          <strong>休息組：</strong>輪椅 + 老人家 → 1F 中庭座位區或咖啡廳坐著<br>
+          <br>
+          約好 14:45 在停車場會合
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 開車到恩納 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">15:00</div>
+    <div class="card">
+      <h3>開車到恩納 <span class="tag min">40 分 / 35.8km</span></h3>
+      <ul>
+        <li>走沖繩自動車道（高速公路）</li>
+        <li>過路費 ~&yen;700-1,000</li>
+        <li>車上可以小睡</li>
+      </ul>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/イオンモール沖縄ライカム/沖縄県恩納村冨着988-10" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- 入住 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">15:40</div>
+    <div class="card">
+      <h3>入住 Laguna Fuchaku</h3>
+
+      <img src="https://www.fuchakuresort.com/hotelimages/exterior.jpg" alt="Laguna Fuchaku 別墅" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：別墅入住流程</h4>
+        <p>
+          <strong>自助入住（無人 check-in）</strong><br>
+          <br>
+          1. 到達地址：恩納村冨着 988-10<br>
+          2. 門口有密碼鎖 → <strong>當天房東會傳密碼到 Airbnb 訊息</strong><br>
+          3. 輸入密碼開門<br>
+          <br>
+          <strong>別墅結構（3 層樓）：</strong><br>
+          1F：客廳、廚房、1 間臥室<br>
+          2F：2 間臥室<br>
+          3F：臥室 + 露台<br>
+          <strong>有電梯</strong> → 輪椅使用者可到每一層<br>
+          <br>
+          <strong>建議房間分配：</strong><br>
+          - 輪椅使用者 A + 陪同 → 1F 臥室（最方便，出入免搭電梯）<br>
+          - 輪椅使用者 B + 陪同 → 2F（搭電梯）<br>
+          - 其他人 → 2F / 3F<br>
+          <br>
+          4. 搬行李進房<br>
+          5. 休息、泡澡<br>
+          6. 探索別墅設施（廚房、洗衣機、浴缸）<br>
+          <br>
+          <strong>停車：</strong>別墅門口有空間，2 台 Alphard 可停
+        </p>
+      </div>
+      <p style="margin-top:6px;font-size:13px;color:var(--sub);">
+        確認碼：HMYWSTYHKX｜電話：+81 50-8883-7560
+      </p>
+    </div>
+  </div>
+
+  <!-- 晚餐 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">18:20</div>
+    <div class="card">
+      <h3>開車到晚餐 <span class="tag min">4 分 / 2.3km</span></h3>
+      <div class="sim-box">
+        <h4>全員上車流程（以後每次同）</h4>
+        <p>
+          預留 10 分鐘上車：<br>
+          1. 各樓層叫人 → 搭電梯到 1F 集合<br>
+          2. 出門 → 輪椅組裝（如果有折）<br>
+          3. 推到車旁 → 扶上車 → 折輪椅進後廂<br>
+          4. 9人就位 → 出發<br>
+          <br>
+          所以 18:20 開始上車 → 18:30 出發 → 18:34 到
+        </p>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/琉球焼肉NAKAMA+恩納" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">18:40</div>
+    <div class="card">
+      <h3>晚餐 琉球焼肉 NAKAMA <span class="tag important">已預約</span></h3>
+
+      <img src="https://yakiniku-nakama.com/wp/wp-content/themes/yakinikunakama/images/top-1.jpg?v0.3" alt="琉球焼肉 NAKAMA" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：NAKAMA 用餐</h4>
+        <p>
+          <strong>古民家改建的燒肉店</strong><br>
+          <br>
+          1. 有自家停車場（店門口）<br>
+          2. <strong>1F 平面入口</strong>，無台階，輪椅直接推進<br>
+          3. 已預約：18:30 / 9人 / 輪椅x2 / 桌席<br>
+          4. 報名字帶位<br>
+          5. 桌席（非榻榻米），輪椅直接入座<br>
+          <br>
+          石垣牛 + 阿古豬燒肉<br>
+          &yen;4,500-5,500/人<br>
+          用餐約 1.5-2 小時
+        </p>
+      </div>
+      <p style="margin-top:6px;font-size:13px;color:var(--sub);">電話：098-967-7029</p>
+
+      <details style="margin-top:10px;">
+        <summary style="font-size:14px;font-weight:600;cursor:pointer;color:var(--text);">其他晚餐選項（恩納村）</summary>
+        <div style="margin-top:8px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              ステーキハウス 88 恩納店 <span class="tag min">車程 10 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              鐵板燒牛排・&yen;2,500~3,500/人<br>
+              輪椅可入，有停車場<br>
+              <strong>不接受預約</strong>，需早到排隊<br>
+              電話：098-964-2988
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/ステーキハウス88+恩納店" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              海鮮料理 浜の家 <span class="tag min">車程 15 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              新鮮海鮮・&yen;2,000~3,000/人<br>
+              L.O. 20:00 偏早，需注意時間<br>
+              輪椅需確認<br>
+              電話：098-965-0870
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/海鮮料理+浜の家+恩納" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 回飯店 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">20:30</div>
+    <div class="card">
+      <h3>回別墅 <span class="tag min">4 分</span></h3>
+      <ul>
+        <li>洗澡、休息</li>
+        <li>客廳聊天、看電視</li>
+        <li>明天 09:30 出發去水族館</li>
+        <li>準備好身心障礙手冊 + Trip.com QR Code</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="summary">
+  <h3>Day 3 時間軸</h3>
+  <p style="font-size:13px;color:var(--sub);line-height:2;">
+    09:30 開始退房準備<br>
+    10:00 出發 → 港川外人住宅（19分）<br>
+    10:20 港川散步+咖啡（1hr）<br>
+    11:20 開車到來客夢（27分）<br>
+    12:30 午餐 焼肉なべしま（個室）<br>
+    14:00 繼續逛來客夢<br>
+    15:00 開車到恩納（40分高速）<br>
+    15:40 入住 Laguna Fuchaku 別墅<br>
+    18:30 開車到 NAKAMA（4分）<br>
+    18:40 晚餐 NAKAMA<br>
+    20:30 回別墅
+  </p>
+</div>
+
+<div style="text-align:center;padding:20px;display:flex;gap:12px;justify-content:center;">
+  <a class="nav-btn" href="day2.html" style="background:var(--gray);">&larr; Day 2</a>
+  <a class="nav-btn" href="day4.html" style="background:#0ea5e9;">Day 4 &rarr;</a>
+</div>
+
+<script>
+document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day3_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 1 — 抵達那霸</title>
+<style>
+  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px}
+  .header{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;padding:24px 20px 20px;position:sticky;top:0;z-index:100}
+  .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:14px;opacity:.8}
+  .timeline{padding:16px;position:relative}.timeline::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:2px;background:var(--border)}
+  .block{position:relative;margin-bottom:20px;padding-left:52px}
+  .dot{position:absolute;left:22px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid var(--blue);background:#fff;z-index:1}
+  .dot.drive{border-color:var(--gray);background:var(--gray)}.dot.food{border-color:var(--orange);background:var(--orange)}.dot.spot{border-color:var(--green);background:var(--green)}.dot.rest{border-color:var(--purple);background:var(--purple)}.dot.flight{border-color:var(--red);background:var(--red)}
+  .time{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px}
+  .card{background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .card p,.card li{font-size:14px;color:var(--sub);line-height:1.7}
+  .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
+  .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+
+  .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
+  .sim-box p{font-size:13px;color:var(--sub);line-height:1.8}
+  .warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .warn-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#d97706}
+  .warn-box p{font-size:13px;color:#92400e;line-height:1.8}
+  .option-box{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:10px}
+  .option-box h4{font-size:14px;font-weight:700;margin-bottom:6px}
+  .option-box p{font-size:13px;color:var(--sub);line-height:1.6}
+  .summary{margin:20px 16px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .summary h3{font-size:16px;font-weight:700;margin-bottom:10px}
+  .checklist{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:16px 16px 0}
+  .checklist h3{font-size:15px;font-weight:700;margin-bottom:8px}
+  .checklist label{display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer}
+  .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="index.html">&larr; 總覽</a>
+  <h1>Day 1 — 03/31 (二)</h1>
+  <p>3 組航班抵達 → 會合 → 晚餐 → 入住</p>
+</div>
+
+<div class="checklist">
+  <h3>出發前確認</h3>
+  <label><input type="checkbox"> 護照（效期 6 個月以上）</label>
+  <label><input type="checkbox"> Visit Japan Web QR Code（截圖備用）</label>
+  <label><input type="checkbox"> 身心障礙手冊 x2（正本）</label>
+  <label><input type="checkbox"> 日圓現金</label>
+  <label><input type="checkbox"> 各自航班訂位代號</label>
+</div>
+
+<div class="timeline">
+
+  <!-- 冠宥報到 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">12:50</div>
+    <div class="card">
+      <h3>冠宥：桃園 T1 報到</h3>
+      <p>樂桃 MM924・訂位 4SXWWE・託運行李 x1</p>
+      <div class="sim-box">
+        <h4>模擬</h4>
+        <p>
+          冠宥一個人，T1 樂桃櫃台報到 → 託運行李 → 過安檢出境<br>
+          LCC 登機口較遠，預留走路時間
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 高雄組報到 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">13:55</div>
+    <div class="card">
+      <h3>高雄組：機場報到（7人）</h3>
+      <p>中華航空 CI132・每人行李 2PC</p>
+      <div class="sim-box">
+        <h4>模擬：7 人 + 2 輪椅報到</h4>
+        <p>
+          1. 抵達高雄機場，先到中華航空櫃台<br>
+          2. <strong>告知有 2 位輪椅旅客</strong> → 華航會安排輪椅通關服務<br>
+          3. 託運行李（每人 2PC，共 14 件）<br>
+          4. 過安檢 → 輪椅使用者走無障礙通道<br>
+          5. 到登機口等候 → <strong>輪椅旅客優先登機</strong><br>
+          6. 自己的輪椅在登機口托運（gate check），下飛機時在機門口領回
+        </p>
+      </div>
+      <div class="warn-box">
+        <h4>輪椅搭機注意</h4>
+        <p>
+          手動輪椅可免費託運，不算件數<br>
+          報到時告知「wheelchair gate check」<br>
+          登機口會提供機場輪椅代步到機門
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 振宏報到 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">14:25</div>
+    <div class="card">
+      <h3>振宏：桃園 T2 報到</h3>
+      <p>長榮 BR186・訂位 FVX6DN・每人行李 2件</p>
+    </div>
+  </div>
+
+  <!-- 起飛 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">14:50 - 16:25</div>
+    <div class="card">
+      <h3>三班陸續起飛</h3>
+      <ul>
+        <li>14:50 冠宥 MM924（桃園T1）</li>
+        <li>15:55 高雄組 CI132（高雄）</li>
+        <li>16:25 振宏 BR186（桃園T2）</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 冠宥抵達 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">17:35</div>
+    <div class="card">
+      <h3>冠宥最早抵達那霸</h3>
+      <div class="sim-box">
+        <h4>冠宥等待 1 小時的任務</h4>
+        <p>
+          1. 下飛機 → 入境（出示 VJW QR Code）<br>
+          2. 領行李<br>
+          3. 到<strong>國際線到達大廳</strong>等大家<br>
+          4. 趁等待時間：<br>
+          &emsp;- 找到 1F 計程車候車區位置<br>
+          &emsp;- 買 SIM 卡 / 確認 eSIM 連線<br>
+          &emsp;- 偵察晚餐方案 A 的 4F 餐廳是否還有位<br>
+          &emsp;- 在 LINE 群組回報：「我到了，在 ○○ 等」
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 高雄組+振宏抵達 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">18:45 - 18:55</div>
+    <div class="card">
+      <h3>高雄組 + 振宏 抵達</h3>
+      <div class="sim-box">
+        <h4>模擬：2 位輪椅旅客下機</h4>
+        <p>
+          1. 飛機到達 → 輪椅旅客最後下機（等其他旅客先走）<br>
+          2. 機門口領回自己的輪椅<br>
+          3. 如果自己的輪椅還沒上來 → 先坐航空公司輪椅<br>
+          4. 搭電梯到入境審查 → 走無障礙通道（不用排隊）<br>
+          5. 領行李（7人 x 2件 = 14件，需要推車）<br>
+          6. 過海關 → 出到達大廳<br>
+          <br>
+          18:55 振宏 BR186 到 → 一個人很快，直接到大廳會合
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 全員會合 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">19:30</div>
+    <div class="card">
+      <h3>全員會合（9人）</h3>
+      <ul>
+        <li>在國際線到達大廳會合</li>
+        <li>確認人數、行李數</li>
+        <li>上廁所（機場無障礙廁所在 1F）</li>
+      </ul>
+      <p style="margin-top:8px;font-weight:600;color:var(--orange);">馬上決定：晚餐方案 A 還是 B？↓</p>
+    </div>
+  </div>
+
+  <!-- 晚餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">19:30 - 20:00</div>
+    <div class="card">
+      <h3>晚餐（二選一）</h3>
+
+      <div class="option-box" style="border-color:#fde68a;background:#fffbeb;">
+        <h4>方案 A：機場 4F 吃（輕鬆但趕 L.O.）</h4>
+        <p>
+          <strong>首選 ロイヤルホスト / レストラン風月</strong><br>
+          國內線 4F・L.O. 20:00
+        </p>
+        <div class="sim-box" style="margin-top:8px;">
+          <h4>模擬：機場內移動</h4>
+          <p>
+            1. 會合後，行李先寄放（1F 投幣置物櫃 or 推著走）<br>
+            2. 國際線到達 1F → 搭電梯到 2F 連通道 → 走到國內線<br>
+            3. 國內線搭電梯到 4F 餐廳區<br>
+            4. <strong>走路約 10 分鐘</strong>（輪椅推行，有電梯全程無障礙）<br>
+            5. 19:40 到 4F → 在 L.O. 20:00 前點餐<br>
+            6. 兩間首選都在同一層，看哪間人少就進<br>
+            7. 空間大，輪椅直接靠桌<br>
+            <br>
+            <strong style="color:#d97706;">風險：只有 20 分鐘點餐，很趕</strong><br>
+            如果超過 19:50 還沒到 4F → 放棄，改方案 B
+          </p>
+        </div>
+      </div>
+
+      <div class="option-box" style="margin-top:12px;border-color:#bbf7d0;background:#f0fdf4;">
+        <h4>方案 B：先到飯店放行李，再去附近吃</h4>
+        <div class="sim-box" style="margin-top:8px;">
+          <h4>模擬：機場 → 飯店</h4>
+          <p>
+            1. 19:30 會合後直接去 1F 計程車候車區<br>
+            2. 跟排班人員說「3台、ホテル近く」<br>
+            3. <strong>分車方式：</strong><br>
+            &emsp;車1：輪椅A + 陪同 + 行李（折輪椅放後車廂）<br>
+            &emsp;車2：輪椅B + 陪同 + 行李<br>
+            &emsp;車3：冠宥 + 振宏 + 剩餘行李<br>
+            4. 目的地：「Alphabed Inn 那覇 East」（給司機看地址）<br>
+            5. 16 分 / 5.7km → ~20:00 到飯店<br>
+            6. <strong>先 check-in 放行李</strong>（3間房鑰匙）→ 20:15 出發吃飯
+          </p>
+        </div>
+
+        <p style="margin-top:12px;font-weight:700;font-size:15px;">以下餐廳選一間：</p>
+
+        <!-- B1 首里天楼 -->
+        <div style="margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:4px;">
+            B1. 首里天楼 <span class="tag wheelchair">輪椅最佳</span> <span class="tag min">步行 8 分</span>
+          </h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            琉球宮廷料理 + 琉球舞踊表演（19:00 / 20:00 兩場）<br>
+            &yen;3,000~5,000/人（+觀賞費 &yen;1,320/人）<br>
+            250 席、<strong>電梯 + 無障礙廁所</strong>，輪椅友善評價最高<br>
+            營業到 22:00（L.O. 21:00）<br>
+            電話：098-863-4091（團體 098-852-3305）
+          </p>
+          <img src="https://suitenrou.jcc-okinawa.net/images/kaiseki2_off.jpg" alt="首里天楼 琉球宮廷料理" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+          <div class="warn-box" style="margin-top:6px;padding:10px 14px;">
+            <p style="font-size:12px;"><strong>注意：</strong>Day 2 晚餐已排首里天楼，Day 1 也去會重複。如果 Day 1 選這裡，Day 2 晚餐要換別間。</p>
+          </div>
+          <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/首里天楼+那覇市牧志" target="_blank" style="margin-top:8px;">飯店→首里天楼導航</a>        </div>
+
+        <!-- B2 幸 KOU -->
+        <div style="margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:4px;">
+            B2. 創作沖縄料理 幸 KOU <span class="tag important">推薦</span> <span class="tag min">步行 8 分</span>
+          </h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            創作沖繩料理 + 島唄 Live（19:30 / 20:30 兩場）<br>
+            &yen;4,000~5,000/人（宴會套餐 &yen;4,950~7,260）<br>
+            約 60~68 席、有包廂，Google 標示無障礙入口<br>
+            營業到 23:00（料理 L.O. 22:00）<br>
+            石垣牛、阿古豬、海葡萄等創作料理<br>
+            電話：098-869-1077
+          </p>
+          <img src="https://imgfp.hotp.jp/IMGH/98/10/P046239810/P046239810_480.jpg" alt="創作沖縄料理 幸 KOU 沖繩創作料理" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+          <div class="warn-box" style="margin-top:6px;padding:10px 14px;">
+            <p style="font-size:12px;"><strong>注意：</strong>2F 店舖，預約時確認電梯或無障礙通道。</p>
+          </div>
+          <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/創作沖縄料理+幸+KOU+牧志" target="_blank" style="margin-top:8px;">飯店→幸KOU導航</a>        </div>
+
+        <!-- B3 波照間 -->
+        <div style="margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:4px;">
+            B3. 波照間 國際通店 <span class="tag min">步行 8 分</span>
+          </h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            沖繩鄉土料理 + 三線現場演奏<br>
+            &yen;3,000~4,000/人<br>
+            老牌名店，菜色超多（海葡萄、苦瓜炒蛋、阿古豬餃子、拉夫堤）<br>
+            營業到 23:00（L.O. 22:00）<br>
+            座位多元：桌席、座敷、包廂<br>
+            電話：098-863-8859
+          </p>
+          <img src="https://hateruma.jcc-okinawa.net/img/pc/main_img01.jpg" alt="波照間 國際通店 古民家風外觀" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+          <div class="warn-box" style="margin-top:6px;padding:10px 14px;">
+            <p style="font-size:12px;"><strong>注意：</strong>古民家風內裝可能有段差，輪椅需先電話確認。</p>
+          </div>
+          <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/波照間+国際通り店+那覇" target="_blank" style="margin-top:8px;">飯店→波照間導航</a>        </div>
+
+        <!-- B4 あんがま -->
+        <div style="margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:4px;">
+            B4. あんがま 國際通店 <span class="tag wheelchair">有電梯</span> <span class="tag min">步行 12 分</span>
+          </h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            沖繩料理居酒屋 + 島唄三線演奏<br>
+            &yen;2,500~3,500/人（<strong>預算最低</strong>）<br>
+            1~7F 大型店，有電梯可達各樓層，席數超多<br>
+            營業到 23:00（L.O. 22:00 前後）<br>
+            電話：098-867-3111
+          </p>
+          <img src="https://angama.jcc-okinawa.net/img/angama_hp_top.jpg" alt="あんがま 國際通店 入口" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+          <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/あんがま+国際通り店+那覇" target="_blank" style="margin-top:8px;">飯店→あんがま導航</a>        </div>
+
+        <!-- B5 龍潭 -->
+        <div style="margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:4px;">
+            B5. 龍潭 國際通本店 <span class="tag wheelchair">無段差</span> <span class="tag min">步行 13 分</span>
+          </h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            經典沖繩料理 + 三線島唄（21:00 場次來得及）<br>
+            &yen;3,800~4,870/人（瑞泉コース 11品）<br>
+            入口無段差，輪椅直接進<br>
+            <strong>營業到 24:00</strong>（最晚，完全不趕）<br>
+            電話：098-863-8704
+          </p>
+          <img src="https://www.tabirai.net/sightseeing/column/img/0005961/kiji1Img.jpg" alt="龍潭 國際通本店 外觀" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+          <div class="warn-box" style="margin-top:6px;padding:10px 14px;">
+            <p style="font-size:12px;"><strong>注意：</strong>步行 13 分較遠，飛了一天可能太累。</p>
+          </div>
+          <details style="margin-top:8px;">
+            <summary style="font-size:13px;font-weight:600;cursor:pointer;color:var(--text);">展開龍潭推薦點法（9人）</summary>
+            <div style="margin-top:8px;padding:10px 14px;background:#f8fafc;border-radius:8px;">
+              <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+                <strong>套餐：瑞泉コース &yen;3,800/人（11品）</strong><br>
+                龍潭豆腐よう（金賞招牌）→ 前菜三品 → 刺身 → 炸沖繩縣魚 → <strong>阿古豬里肌牛排</strong> → <strong>苦瓜炒什錦</strong> → 醋漬海藻 → 內臟湯 → 沖繩炊飯 → 漬物 → 鳳梨<br>
+                <br>
+                <strong>建議加點：</strong><br>
+                &bull; 海葡萄 &yen;720（套餐沒有，必點）<br>
+                &bull; ラフテー紅燒三層肉 &yen;850 x2（大家分）<br>
+                &bull; 沖繩麵 &yen;680（想吃的人單點）<br>
+                <br>
+                <strong>三線島唄表演：</strong>&yen;300/人（15歲以下免費），坐1F才看得到<br>
+                <br>
+                <strong>預估費用：</strong><br>
+                套餐 + 加點 + 島唄 + 飲料 &asymp; <strong>&yen;4,870/人（~NT$1,003）</strong>
+              </p>
+            </div>
+          </details>
+          <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/龍潭+国際通り本店" target="_blank" style="margin-top:8px;">飯店→龍潭導航</a>        </div>
+
+        <!-- B6 スシロー -->
+        <div style="margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:4px;">
+            B6. スシロー 那覇國際通店 <span class="tag important">最輕鬆</span> <span class="tag min">步行 14 分</span>
+          </h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            迴轉壽司・看到喜歡的就拿，不用想<br>
+            &yen;1,000~2,000/人（<strong>最便宜</strong>）<br>
+            營業到 23:00，小孩老人都愛<br>
+            電話：098-860-7018
+          </p>
+          <img src="https://tblg.k-img.com/restaurant/images/Rvw/129594/640x640_rect_129594216.jpg" alt="スシロー 那覇國際通店 壽司" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+          <div class="warn-box" style="margin-top:6px;padding:10px 14px;">
+            <p style="font-size:12px;"><strong>注意：</strong>2F 店舖需確認電梯。熱門店可能排隊，建議用スシロー App 提前取號。步行 14 分較遠。</p>
+          </div>
+          <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/スシロー+那覇国際通り店" target="_blank" style="margin-top:8px;">飯店→スシロー導航</a>        </div>
+
+        <!-- 推薦排序 -->
+        <div style="margin-top:14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;color:#1d4ed8;">推薦排序</h4>
+          <p style="font-size:13px;color:var(--sub);line-height:2;">
+            <strong>1. 首里天楼</strong> — 輪椅最佳、8分近、但 Day 2 會重複<br>
+            <strong>2. 幸 KOU</strong> — 8分近、島唄、無障礙標示、不重複<br>
+            <strong>3. 波照間</strong> — 8分近、老牌、菜色多、但輪椅待確認<br>
+            <strong>4. あんがま</strong> — 電梯、最便宜、但 12 分稍遠<br>
+            <strong>5. 龍潭</strong> — 營業最晚、無段差、但 13 分遠<br>
+            <strong>6. スシロー</strong> — 最輕鬆零壓力、但 14 分遠且輪椅待確認<br>
+            <br>
+            <strong style="color:#1d4ed8;">建議：</strong>如果不怕 Day 2 重複 → 首里天楼；不重複 → 幸 KOU<br>
+            累到不想走 → 計程車直接載到門口（飯店叫車 ~&yen;700）
+          </p>
+        </div>
+
+        <a class="nav-btn" href="https://www.google.com/maps/dir/那覇空港/Alphabed+Inn+Naha+East" target="_blank" style="margin-top:12px;">機場→飯店導航</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 計程車 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">~21:00</div>
+    <div class="card">
+      <h3>計程車到飯店 <span class="tag min">16 分 / 5.7km</span></h3>
+      <p>（如果選方案 A，吃完後搭車；方案 B 已在飯店）</p>
+      <div class="sim-box">
+        <h4>模擬：9人 + 2輪椅叫計程車</h4>
+        <p>
+          <strong>那霸機場計程車候車區在 1F 到達大廳外面</strong><br>
+          有排班人員幫忙叫車<br><br>
+          3 台計程車分配：<br>
+          車1：輪椅A + 陪同1人 + 行李（後廂放折疊輪椅+2個行李箱）<br>
+          車2：輪椅B + 陪同1人 + 行李<br>
+          車3：3人 + 剩餘行李<br><br>
+          費用：每台 ~&yen;2,000，3台 ~<strong>&yen;6,000</strong><br><br>
+          <strong>上車步驟（輪椅）：</strong><br>
+          1. 先把輪椅折好，放後車廂<br>
+          2. 扶輪椅使用者移到車座（後座）<br>
+          3. 陪同者坐旁邊<br>
+          4. 預留每台 5 分鐘上車時間
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 入住 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">~21:30</div>
+    <div class="card">
+      <h3>入住 Alphabed Inn East</h3>
+      <div class="sim-box">
+        <h4>模擬：入住流程</h4>
+        <p>
+          1. 到 1F 櫃台，出示預約番號：<br>
+          &emsp;房1: 3363-4871-8296<br>
+          &emsp;房2: 3363-4966-4479<br>
+          &emsp;房3: 3363-4988-7670<br>
+          2. 領 3 把房間鑰匙<br>
+          3. 問櫃台拿<strong>洗澡椅</strong>（已事先詢問）<br>
+          4. 搭電梯到房間（每間 29m&sup2;，雙人床+布團）<br>
+          5. 分配 3 間 x 3 人<br>
+          <br>
+          <strong>輪椅注意：</strong><br>
+          - 電梯可以進輪椅<br>
+          - 房間 29m&sup2; 空間夠大，輪椅可進但較擠<br>
+          - 洗澡椅放浴室，方便移位
+        </p>
+      </div>
+      <div class="warn-box">
+        <h4>停車（D2 取車後）</h4>
+        <p>
+          飯店無停車場，明天取車後停附近投幣停車場<br>
+          <strong>Times 牧志3丁目第2</strong>（步行5分，限寬1.9m OK，12hr &yen;770）<br>
+          選角落車位，Alphard 開門較寬
+        </p>
+        <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/Times+牧志3丁目第2" target="_blank" style="margin-top:8px;">停車場導航</a>
+      </div>
+      <div style="margin-top:10px;">
+        <a class="nav-btn" href="https://maps.app.goo.gl/ztW6iqwXKvkxpUyTA" target="_blank">飯店 Google Map</a>        <img src="https://alphabed-inn.jp/wp-content/uploads/nahaeast02-min.jpg" alt="Alphabed Inn Naha East" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="summary">
+  <h3>Day 1 時間軸</h3>
+  <p style="font-size:13px;color:var(--sub);line-height:2;">
+    12:50 冠宥桃園T1報到<br>
+    13:55 高雄組報到（7人+2輪椅）<br>
+    14:25 振宏桃園T2報到<br>
+    14:50-16:25 三班起飛<br>
+    17:35 冠宥先到（等1hr）<br>
+    18:45 高雄組到<br>
+    18:55 振宏到<br>
+    19:30 全員會合<br>
+    20:00 晚餐（機場 or 龍潭）<br>
+    ~21:00 計程車到飯店<br>
+    ~21:30 入住 Alphabed Inn
+  </p>
+</div>
+
+<div style="text-align:center;padding:20px;">
+  <a class="nav-btn" href="day2.html" style="background:#f59e0b;">Day 2 那霸市區 &rarr;</a>
+</div>
+
+<script>
+document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day1_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
+</script>
+
+</body>
+</html>

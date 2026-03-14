@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 5 — 返程日</title>
+<style>
+  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px}
+  .header{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;padding:24px 20px 20px;position:sticky;top:0;z-index:100}
+  .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:14px;opacity:.8}
+  .timeline{padding:16px;position:relative}.timeline::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:2px;background:var(--border)}
+  .block{position:relative;margin-bottom:20px;padding-left:52px}
+  .dot{position:absolute;left:22px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid var(--blue);background:#fff;z-index:1}
+  .dot.drive{border-color:var(--gray);background:var(--gray)}.dot.food{border-color:var(--orange);background:var(--orange)}.dot.spot{border-color:var(--green);background:var(--green)}.dot.rest{border-color:var(--purple);background:var(--purple)}.dot.flight{border-color:var(--red);background:var(--red)}.dot.car{border-color:var(--blue);background:var(--blue)}
+  .time{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px}
+  .card{background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .card p,.card li{font-size:14px;color:var(--sub);line-height:1.7}
+  .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
+  .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.urgent{background:#fee2e2;color:#dc2626}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+
+  .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
+  .sim-box p{font-size:13px;color:var(--sub);line-height:1.8}
+  .warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .warn-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#d97706}
+  .warn-box p{font-size:13px;color:#92400e;line-height:1.8}
+  .alert-box{background:#fee2e2;border:1px solid #fca5a5;border-radius:10px;padding:14px 16px;margin:16px 16px 0}
+  .alert-box h3{font-size:15px;font-weight:700;color:#dc2626;margin-bottom:6px}
+  .alert-box p{font-size:13px;color:#991b1b;line-height:1.6}
+  .checklist{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:16px 16px 0}
+  .checklist h3{font-size:15px;font-weight:700;margin-bottom:8px}
+  .checklist label{display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer}
+  .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green)}
+  .summary{margin:20px 16px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .summary h3{font-size:16px;font-weight:700;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="index.html">&larr; 總覽</a>
+  <h1>Day 5 — 04/04 (六)</h1>
+  <p>退房 → Ashibinaa Outlet → 還車 → 回台灣</p>
+</div>
+
+<div class="alert-box">
+  <h3>今天時間最緊！注意分流</h3>
+  <p>
+    冠宥 16:45 樂桃（LCC 需 14:45 前報到）<br>
+    高雄組 19:45 華航 / 振宏 19:55 長榮<br>
+    還車流程需 54 分鐘 → 15:00 必須離開 Outlet
+  </p>
+</div>
+
+<div class="checklist">
+  <h3>退房前確認</h3>
+  <label><input type="checkbox"> 10:00 前退房（遲退 &yen;11,000/hr）</label>
+  <label><input type="checkbox"> 3 層樓全檢查（充電器、曬的衣服）</label>
+  <label><input type="checkbox"> 全部行李上車</label>
+  <label><input type="checkbox"> 路上找加油站加滿油</label>
+  <label><input type="checkbox"> 保留加油收據（還車要用）</label>
+  <label><input type="checkbox"> 護照、機票都帶了</label>
+</div>
+
+<div class="timeline">
+
+  <!-- 早餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">07:30 - 09:00</div>
+    <div class="card">
+      <h3>早餐（最後一頓在別墅）</h3>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:8px;">10:00 退房，吃完收拾出發</p>
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          A. 別墅自炊 — 用完冰箱剩餘食材
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          把昨天買的食材吃完，不浪費
+        </p>
+      </div>
+      <details style="margin-top:8px;">
+        <summary style="font-size:13px;font-weight:600;cursor:pointer;">想吃好一點？</summary>
+        <div style="margin-top:6px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              土花土花（Dokadoka）<span class="tag important">海景絕景</span> <span class="tag min">車程 8 分</span>            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              山丘上的海景咖啡・陶藝家手作餐具<br>
+              08:00-10:30 朝食 ~&yen;1,200/人<br>
+              輪椅 OK（寬通道、桌席）<br>
+              <strong>9 人要預約：098-965-1666</strong><br>
+              週日定休（今天六 OK）<br>
+              08:00 到 → 09:15 吃完回別墅 → 09:30 收拾 → 10:00 退房
+            </p>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              シーサイドドライブイン <span class="tag min">車程 10 分</span>            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              1967 年美式復古餐廳・面海座位<br>
+              08:00 開 モーニングセット ~&yen;800/人<br>
+              輪椅 OK・週三定休（今天六 OK）
+            </p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 退房 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">09:30</div>
+    <div class="card">
+      <h3>退房準備</h3>
+      <div class="sim-box">
+        <h4>模擬：別墅退房</h4>
+        <p>
+          1. 09:00 起床，最後整理行李<br>
+          2. 3 層樓每層都檢查（浴室、床邊、插座、陽台）<br>
+          3. 把垃圾集中（依別墅規定分類）<br>
+          4. 行李搬到 1F → 裝車<br>
+          &emsp;- 電梯搬行李（一次 2-3 個箱子）<br>
+          &emsp;- 輪椅使用者最後下來<br>
+          5. 鎖門即可（自助退房，密碼鎖自動上鎖）<br>
+          6. 10:00 準時離開
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 出發 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">10:10</div>
+    <div class="card">
+      <h3>開車到 Ashibinaa Outlet <span class="tag min">1hr 2min / 73km</span></h3>
+      <div class="sim-box">
+        <h4>模擬：路上加油</h4>
+        <p>
+          <strong>走沖繩自動車道南下</strong><br>
+          <br>
+          <strong>加油時機：</strong>下高速公路後、到 Outlet 前<br>
+          <strong>推薦：ENEOS 豊崎店</strong>（豊見城市豊崎 3-40，Outlet 旁 1km，自助加油，06:00-20:00）<br>
+          備用（24hr）：とよみセルフSS（豊見城市高安 1171-1，機場→COLDIO 途中）<br>
+          <br>
+          加油步驟：<br>
+          1. 開進加油站 → 說「満タン、レギュラー」（加滿，普通汽油）<br>
+          2. 2 台都加滿<br>
+          3. <strong>保留收據</strong>（還車時要出示）<br>
+          4. 加完直接開到 Outlet（再 5 分鐘）<br>
+          <br>
+          高速過路費 ~&yen;1,000-1,500<br>
+          油資 ~&yen;3,000-4,000（2台）
+        </p>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県恩納村冨着988-10/沖縄アウトレットモールあしびなー" target="_blank">開啟導航</a>
+    </div>
+  </div>
+
+  <!-- Outlet -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">11:15</div>
+    <div class="card">
+      <h3>Ashibinaa Outlet <span class="tag wheelchair">無障礙完善</span></h3>
+      <img src="https://static.gltjp.com/glt/data/directory/15000/14433/20241101_175517_7da8e111_w1920.webp" alt="Ashibinaa Outlet" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：Outlet 動線</h4>
+        <p>
+          <strong>停車：</strong>免費平面停車場，很大不怕沒位<br>
+          停靠近入口處，方便搬輪椅<br>
+          <br>
+          <strong>先做：</strong>到 1F 遊客中心領 Coupon（出示護照）<br>
+          <br>
+          <strong>輪椅動線：</strong><br>
+          - Outlet 是開放式走廊，全平面<br>
+          - 無障礙評分極高<br>
+          - 走道很寬，輪椅完全沒問題<br>
+          - 有無障礙廁所<br>
+          <br>
+          <strong>可以分組：</strong><br>
+          - 購物組：年輕人衝品牌店<br>
+          - 休息組：輪椅+老人家在中庭座位區等<br>
+          - 振宏：可去旁邊 iias 的 XEBIO 看網球拍（車程 3 分）
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 午餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">12:00</div>
+    <div class="card">
+      <h3>午餐 カラカラ 自助餐</h3>
+      <img src="https://karakara-okinawa.com/wp-content/uploads/2026/03/IMG_5949.jpg" alt="カラカラ 蔬菜自助餐" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：カラカラ用餐</h4>
+        <p>
+          Outlet 2F・168 席・無障礙評分 5/5<br>
+          <br>
+          1. 搭電梯到 2F<br>
+          2. 門口報人數「9名」<br>
+          3. 80 種以上沖繩島蔬菜自助餐 &yen;1,958/人<br>
+          4. <strong>午餐無時間限制</strong>（不像 INOH 限 50 分）<br>
+          5. 輪椅可直接推到自助餐取餐區<br>
+          &emsp;（如果不方便，其他人幫忙端菜）<br>
+          6. 最後一頓在沖繩的飯，慢慢吃
+        </p>
+      </div>
+
+      <details style="margin-top:10px;">
+        <summary style="font-size:14px;font-weight:600;cursor:pointer;color:var(--text);">其他午餐選項（Outlet 內）</summary>
+        <div style="margin-top:8px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              楽風 OKINAWA <span class="tag min">Outlet 2F</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              沖繩麵・&yen;700~1,000/人<br>
+              有榻榻米座位，快速輕鬆
+            </p>
+          </div>
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              紅虎餃子房 <span class="tag min">Outlet 2F</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              中華料理・&yen;800~1,200/人<br>
+              口味熟悉，老人家吃得慣
+            </p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 繼續逛 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">13:00</div>
+    <div class="card">
+      <h3>最後逛 Outlet</h3>
+      <div class="warn-box">
+        <h4>注意時間！</h4>
+        <p>
+          冠宥 14:00 要先離開去機場<br>
+          其他人 15:00 也要走<br>
+          最後衝刺採買，別逛太遠
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 冠宥先走 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">14:00</div>
+    <div class="card">
+      <h3>冠宥先去機場 <span class="tag urgent">LCC 要提前 2hr</span></h3>
+      <div class="sim-box">
+        <h4>模擬：冠宥分流</h4>
+        <p>
+          <strong>方案 A（有人送）：</strong><br>
+          1 台車載冠宥 + 行李到機場（11 分）<br>
+          司機放冠宥下車後開回 Outlet 繼續逛<br>
+          <br>
+          <strong>方案 B（自己去）：</strong><br>
+          冠宥叫 Uber 或計程車去機場（~&yen;1,500）<br>
+          <br>
+          冠宥到機場後：<br>
+          1. 14:15 到機場<br>
+          2. 樂桃櫃台報到（T1 國內/國際共用）<br>
+          3. 託運行李<br>
+          4. 過安檢出境<br>
+          5. 16:45 起飛 MM929<br>
+          6. 17:20 到桃園
+        </p>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄アウトレットモールあしびなー/那覇空港" target="_blank">Outlet→機場導航</a>
+    </div>
+  </div>
+
+  <!-- 全員去機場 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">15:00</div>
+    <div class="card">
+      <h3>全員前往機場</h3>
+      <div class="sim-box">
+        <h4>模擬：機場下車 + 還車分流</h4>
+        <p>
+          <strong>15:00 從 Outlet 出發</strong>（2台車，8人）<br>
+          <br>
+          <strong>15:12 到機場航廈門口：</strong><br>
+          1. 臨停在國際線出發大廳門口<br>
+          2. 先放下 6 人 + 全部行李 + 2 台輪椅<br>
+          &emsp;- 組裝輪椅<br>
+          &emsp;- 扶輪椅使用者下車坐好<br>
+          &emsp;- 把所有行李箱搬下來<br>
+          &emsp;- 有行李推車可借<br>
+          3. 6 人先進航廈，找位子坐、看行李<br>
+          4. <strong>2 位司機開 2 台車去還車</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 還車 -->
+  <div class="block">
+    <div class="dot car"></div>
+    <div class="time">15:15</div>
+    <div class="card">
+      <h3>2 位司機還車 <span class="tag important">全程約 54 分</span></h3>
+      <div class="sim-box">
+        <h4>模擬：還車完整流程</h4>
+        <p>
+          <strong>人員：2 位司機（非冠宥，他已經走了）</strong><br>
+          <br>
+          <strong>15:15 從機場出發</strong><br>
+          → 開到 COLDIO（12 分 / 6.7km）<br>
+          <br>
+          <strong>15:27 到 COLDIO</strong><br>
+          1. 停到指定位置<br>
+          2. 出示加油收據（證明已加滿油）<br>
+          3. 工作人員驗車：<br>
+          &emsp;- 外觀檢查（車身刮傷）<br>
+          &emsp;- 內裝檢查<br>
+          &emsp;- 油量確認<br>
+          &emsp;- 里程紀錄<br>
+          4. <strong>自己也拍照存證</strong>（跟取車時的照片對比）<br>
+          5. 信用卡結帳 &yen;44,000 x 2 = &yen;88,000<br>
+          6. 簽名、拿收據<br>
+          7. 驗車全程 ~30 分<br>
+          <br>
+          <strong>15:57 驗車完</strong><br>
+          → 請 COLDIO 幫叫計程車 or 自己叫<br>
+          → 計程車到機場（12 分 / ~&yen;1,500）<br>
+          <br>
+          <strong>~16:10 回到機場</strong>，跟大家會合
+        </p>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/那覇空港/沖縄県豊見城市翁長849-10" target="_blank">機場→COLDIO導航</a>
+    </div>
+  </div>
+
+  <!-- 機場會合 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">~16:10</div>
+    <div class="card">
+      <h3>全員機場會合</h3>
+      <div class="sim-box">
+        <h4>模擬：機場等候</h4>
+        <p>
+          <strong>等待的 6 人（15:15-16:10）做什麼：</strong><br>
+          - 在國際線出發大廳找座位<br>
+          - 看行李<br>
+          - 逛機場免稅店<br>
+          - 最後的 Blue Seal / 豬肉蛋飯糰<br>
+          - 無障礙廁所在各樓層<br>
+          <br>
+          <strong>16:10 司機回來 → 全員到齊（8人）</strong><br>
+          （冠宥已在 16:45 飛走）
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 報到 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">17:15</div>
+    <div class="card">
+      <h3>報到 Check-in</h3>
+      <div class="sim-box">
+        <h4>模擬：分組報到</h4>
+        <p>
+          <strong>高雄組（7人 + 2輪椅）→ 中華航空櫃台：</strong><br>
+          1. 跟櫃台說「有 2 位輪椅旅客」<br>
+          2. 輪椅 gate check（登機口托運）<br>
+          3. 託運行李（每人 2PC）<br>
+          4. 過安檢 → 輪椅走無障礙通道<br>
+          5. 到登機口等 → 輪椅優先登機<br>
+          <br>
+          <strong>振宏（1人）→ 長榮航空櫃台：</strong><br>
+          1. 一個人報到，很快<br>
+          2. 託運行李（2件）<br>
+          3. 過安檢出境
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 冠宥飛 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">16:45</div>
+    <div class="card">
+      <h3>冠宥起飛 MM929</h3>
+      <p>那霸 → 桃園 T1・<strong>17:20</strong> 抵達</p>
+      <p style="font-size:12px;color:var(--sub);">訂位：4SXWWE</p>
+    </div>
+  </div>
+
+  <!-- 高雄組飛 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">19:45</div>
+    <div class="card">
+      <h3>高雄組起飛 CI133</h3>
+      <p>那霸 → 高雄・<strong>20:30</strong> 抵達</p>
+      <div class="sim-box">
+        <h4>模擬：輪椅旅客登機</h4>
+        <p>
+          1. 登機口集合 → 輪椅旅客優先登機通知<br>
+          2. 到機門口 → 把自己的輪椅交給地勤<br>
+          3. 坐航空公司輪椅到座位<br>
+          4. 起飛<br>
+          5. 到高雄 → 最後下機 → 機門口領回輪椅<br>
+          6. 走無障礙通道出關<br>
+          7. 20:30 到高雄，回家！
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 振宏飛 -->
+  <div class="block">
+    <div class="dot flight"></div>
+    <div class="time">19:55</div>
+    <div class="card">
+      <h3>振宏起飛 BR185</h3>
+      <p>那霸 → 桃園 T2・<strong>20:30</strong> 抵達</p>
+      <p style="font-size:12px;color:var(--sub);">訂位：FVX6DN</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="summary">
+  <h3>Day 5 關鍵時間</h3>
+  <p style="font-size:13px;color:var(--sub);line-height:2;">
+    09:30 整理行李<br>
+    10:00 退房<br>
+    10:10 開車南下（路上加油）<br>
+    11:15 Ashibinaa Outlet<br>
+    12:00 午餐 カラカラ<br>
+    <strong style="color:#dc2626;">14:00 冠宥先走</strong><br>
+    <strong style="color:#dc2626;">15:00 全員去機場（放人→還車分流）</strong><br>
+    15:15 2司機還車（54分）<br>
+    16:10 機場會合<br>
+    16:45 冠宥 MM929<br>
+    19:45 高雄組 CI133<br>
+    19:55 振宏 BR185<br>
+    <br>
+    <strong>平安回家！</strong>
+  </p>
+</div>
+
+<div style="text-align:center;padding:20px;">
+  <a class="nav-btn" href="day4.html" style="background:var(--gray);">&larr; Day 4</a>
+</div>
+
+<script>
+document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day5_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
+</script>
+
+</body>
+</html>

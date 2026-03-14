@@ -1,0 +1,6 @@
+.claude/
+.obsidian/
+.playwright-mcp/
+*.png
+*.pdf
+archive/

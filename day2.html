@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 2 — 那霸市區</title>
+<style>
+  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px}
+  .header{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;padding:24px 20px 20px;position:sticky;top:0;z-index:100}
+  .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:14px;opacity:.8}
+  .timeline{padding:16px;position:relative}.timeline::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:2px;background:var(--border)}
+  .block{position:relative;margin-bottom:20px;padding-left:52px}
+  .dot{position:absolute;left:22px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid var(--blue);background:#fff;z-index:1}
+  .dot.drive{border-color:var(--gray);background:var(--gray)}.dot.food{border-color:var(--orange);background:var(--orange)}.dot.spot{border-color:var(--green);background:var(--green)}.dot.rest{border-color:var(--purple);background:var(--purple)}.dot.car{border-color:var(--blue);background:var(--blue)}
+  .time{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px}
+  .card{background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .card p,.card li{font-size:14px;color:var(--sub);line-height:1.7}
+  .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
+  .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+
+  .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
+  .sim-box p{font-size:13px;color:var(--sub);line-height:1.8}
+  .warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .warn-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#d97706}
+  .warn-box p{font-size:13px;color:#92400e;line-height:1.8}
+  .checklist{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:16px 16px 0}
+  .checklist h3{font-size:15px;font-weight:700;margin-bottom:8px}
+  .checklist label{display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer}
+  .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green)}
+  .summary{margin:20px 16px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+  .summary h3{font-size:16px;font-weight:700;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back" href="index.html">&larr; 總覽</a>
+  <h1>Day 2 — 04/01 (三)</h1>
+  <p>取車 → AEON 小祿 → 國際通 → 牧志市場 → 首里天楼</p>
+</div>
+
+<div class="checklist">
+  <h3>今日確認</h3>
+  <label><input type="checkbox"> 駕照日文譯本（4位司機都帶了）</label>
+  <label><input type="checkbox"> 手機導航 + 車充</label>
+  <label><input type="checkbox"> 首里天楼 18:30 預約（098-852-3305 團體專線）</label>
+</div>
+
+<div class="timeline">
+
+  <!-- 早餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">07:30 - 08:30</div>
+    <div class="card">
+      <h3>早餐（分組行動）</h3>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:8px;">飯店無附早餐，自己解決</p>
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          司機組（2人）08:30 出門前
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          FamilyMart 壺屋店（飯店旁 30 秒）買飯糰+咖啡 ~&yen;500/人
+        </p>
+      </div>
+      <p style="font-size:13px;font-weight:700;margin-bottom:6px;">留守組（7人）選一個：</p>
+
+      <!-- A. FamilyMart -->
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          A. FamilyMart 壺屋店 <span class="tag min">飯店旁 30 秒</span>
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          最輕鬆，買回房間吃 ~&yen;500/人<br>
+          飯糰、三明治、咖啡、味噌湯
+        </p>
+      </div>
+
+      <!-- B. ポーたま -->
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          B. 豬肉蛋飯糰（ポーたま）<span class="tag important">推薦</span> <span class="tag min">步行 8 分</span>
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          沖繩必吃 ~&yen;400/人・07:00 開<br>
+          排隊名店，07:30 去避開人潮，買回房間吃<br>
+          外帶型，輪椅使用者不用進店
+        </p>
+        <img src="https://porktamago.com/wp2025/wp-content/themes/pork-tamage-onigiri/img/top/photo-slide01-01--2x.webp" alt="ポーたま 豬肉蛋飯糰" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+        <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/ポークたまごおにぎり本店+牧志" target="_blank">飯店→ポーたま導航</a>
+      </div>
+
+      <!-- C. C&C BREAKFAST -->
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          C. C&C BREAKFAST <span class="tag min">步行 10 分</span>
+        </h4>
+        <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+          夏威夷風鬆餅・açaí碗 ~&yen;1,500/人・09:00 開<br>
+          輪椅需電話確認（098-927-9295）<br>
+          週二定休（今天三 OK）
+        </p>
+        <img src="https://en.okinawatraveler.net/wp-content/uploads/2019/12/0001945-2.jpg" alt="C&C BREAKFAST 鬆餅" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+        <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/C%26C+BREAKFAST+OKINAWA+松尾" target="_blank">飯店→C&C導航</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 取車 -->
+  <div class="block">
+    <div class="dot car"></div>
+    <div class="time">08:30</div>
+    <div class="card">
+      <h3>司機出發取車 <span class="tag important">分兩組行動</span></h3>
+      <div class="sim-box">
+        <h4>模擬：取車流程（2 位司機 vs 其他 7 人）</h4>
+        <p>
+          <strong>司機組（2人）：</strong><br>
+          1. 08:30 叫 Uber / 計程車到 COLDIO<br>
+          &emsp;地址：豊見城市翁長 849-10<br>
+          &emsp;車程約 15 分・~&yen;2,000<br>
+          2. 08:45 到店 → 出示計程車收據（退車資）<br>
+          3. 出示護照 + 駕照日文譯本<br>
+          4. 簽約（看清楚免責條款）<br>
+          5. <strong>全車拍照錄影</strong>（底盤、輪圈、車身每個角度、內裝）<br>
+          6. 確認油是滿的、檢查車況<br>
+          7. 手續約 30-60 分<br>
+          8. 09:30 開 2 台 Alphard 回飯店接人<br>
+          &emsp;<strong>飯店地址：那覇市壺屋 1-18-46 Alphabed Inn Naha East</strong><br>
+          <br>
+          <strong>飯店組（7人，含 2 輪椅）：</strong><br>
+          1. 08:30-09:30 在飯店自由活動<br>
+          2. 可以去附近便利商店買早餐<br>
+          3. 收拾好隨身物品等司機來<br>
+          4. 09:30 司機到 → 全員上車
+        </p>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/沖縄県豊見城市翁長849-10" target="_blank">飯店→COLDIO 導航</a>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/沖縄県豊見城市翁長849-10/Alphabed+Inn+Naha+East" target="_blank" style="background:var(--green);">COLDIO→飯店 回程導航</a>
+    </div>
+  </div>
+
+  <!-- 上車出發 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">09:45</div>
+    <div class="card">
+      <h3>全員上車</h3>
+      <div class="sim-box">
+        <h4>模擬：9人分 2 台 Alphard</h4>
+        <p>
+          <strong>車1（5人）：</strong>司機 + 輪椅A + 陪同 + 2人<br>
+          <strong>車2（4人）：</strong>司機 + 輪椅B + 陪同 + 1人<br>
+          <br>
+          輪椅折疊放後車廂<br>
+          Alphard 後廂空間大，放 1 台折疊輪椅 + 購物袋沒問題<br>
+          上車步驟：折輪椅 → 扶上車 → 收輪椅 → 約 5 分/台
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AEON -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">10:00</div>
+    <div class="card">
+      <h3>開車到 AEON 小祿 <span class="tag min">12 分 / 3.9km</span></h3>
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-top:8px;">
+        <p style="font-size:13px;color:var(--sub);line-height:1.7;">
+          <strong style="color:#1d4ed8;">順路：Workman Plus 豊見城店</strong><br>
+          飯店→AEON 路上，繞一下就到（開車約 10 分）<br>
+          日本職人工作服品牌，防水外套、機能褲超便宜<br>
+          營業 07:00-20:00
+        </p>
+        <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/ワークマンプラス+豊見城店/イオン那覇店" target="_blank">飯店→Workman→AEON 導航</a>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/イオン那覇店" target="_blank">直接去 AEON 導航</a>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">10:15</div>
+    <div class="card">
+      <h3>AEON MALL 那霸小祿 <span class="tag wheelchair">全館無障礙</span></h3>
+      <img src="https://www.naha-contentsdb.jp/en/wp-content/uploads/a41bf0013d.jpg" alt="AEON 那霸小祿" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：AEON 動線</h4>
+        <p>
+          <strong>停車：</strong>AEON 立體停車場（免費，2小時以上需消費抵扣）<br>
+          2 台 Alphard 停同一層，靠電梯口<br>
+          <br>
+          <strong>下車：</strong>停車場取出輪椅 → 組裝 → 搭電梯到賣場<br>
+          <br>
+          <strong>輪椅注意：</strong>賣場通道寬敞，輪椅沒問題<br>
+          藥妝店走道較窄，可能需要一人幫忙推<br>
+          全館有電梯、無障礙廁所
+        </p>
+      </div>
+
+      <!-- 各樓層購物攻略 -->
+      <div style="margin-top:12px;">
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:10px;">各樓層台灣人必買攻略</h4>
+
+        <!-- 1F -->
+        <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:6px;color:#d97706;">1F 超市+伴手禮+百圓店 <span class="tag important">最值得逛</span></h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            <strong>超市（採買大本營）：</strong><br>
+            &bull; 沖繩限定：Orion 啤酒、さんぴん茶、琉球可樂<br>
+            &bull; 零食：薯條三兄弟、Jagabee、地方限定洋芋片家庭包<br>
+            &bull; 帶回家煮：日式咖哩塊、高湯包（昆布/鰹魚）、味噌湯塊<br>
+            &bull; 泡麵：日清、UFO 炒麵、沖繩限定口味<br>
+            <br>
+            <strong>沖繩伴手禮專區：</strong><br>
+            &bull; 紅芋塔（御菓子御殿）— 沖繩代表伴手禮<br>
+            &bull; 雪塩餅乾（宮古島）<br>
+            &bull; 黑糖系列點心<br>
+            &bull; 沖繩限定 KitKat（期間限定口味）<br>
+            &bull; 泡盛小瓶禮盒（送禮精緻不佔空間）<br>
+            <br>
+            <strong>ダイソー（百圓店）：</strong>日本文具、廚房小物、收納、100 円超好買<br>
+            <strong>Starbucks：</strong>沖繩限定杯、地域限定商品<br>
+            <strong>築地銀だこ：</strong>章魚燒，逛累了邊走邊吃<br>
+            <strong>ジミー（Jimmy's）：</strong>沖繩洋菓子老店，餅乾超讚
+          </p>
+        </div>
+
+        <!-- 2F -->
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a;">2F 服飾+雜貨+眼鏡</h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            <strong>平價服飾：</strong><br>
+            &bull; Honeys — 女裝，日系平價，台灣沒有<br>
+            &bull; Green Parks — 自然風女裝<br>
+            &bull; AEON 自有品牌 — 家居服、內著，CP 值高<br>
+            &bull; チュチュアンナ — 襪子、內衣，花色多又便宜<br>
+            <br>
+            <strong>鞋包：</strong>ABC-MART MONO（球鞋日本限定色比台灣多、常有特價）<br>
+            <strong>雜貨：</strong><br>
+            &bull; Village Vanguard — 搞怪雜貨書店，挖寶好地方<br>
+            &bull; THREEPPY（300 円均一）— 大創升級版，質感好<br>
+            &bull; パセリハウス — 生活雜貨<br>
+            <strong>眼鏡：</strong>OWNDAYS — 比台灣便宜，20 分鐘取件<br>
+            <strong>くら寿司：</strong>2F 也有餐廳（214 席迴轉壽司）
+          </p>
+        </div>
+
+        <!-- 3F -->
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px 16px;">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:6px;color:#1d4ed8;">3F 家電+書店+餐廳+玩具</h4>
+          <p style="font-size:13px;color:var(--sub);line-height:1.8;">
+            <strong>ベスト電器（家電）：</strong><br>
+            &bull; 吹風機（Panasonic、SALONIA）、電動牙刷<br>
+            &bull; 免稅對應，滿 ¥5,000 可退稅<br>
+            <br>
+            <strong>くまざわ書店：</strong>日文繪本、文具、雜誌附錄（限定包包超搶手）<br>
+            <strong>JINS 眼鏡：</strong>比台灣便宜 30-40%，可當場配鏡<br>
+            <strong>玩具（TOYS SPOT PALO）：</strong><br>
+            &bull; Tomica 小汽車、寶可夢、扭蛋機一整排<br>
+            &bull; 帶給親戚小孩超適合<br>
+            <br>
+            <strong>餐廳區：</strong>88 Jr. 牛排、和食 楽庵、天ぷら一代、喫茶ピノキオ
+          </p>
+        </div>
+      </div>
+
+      <!-- 省時建議 -->
+      <div class="warn-box" style="margin-top:10px;">
+        <h4>省時逛法（9 人建議）</h4>
+        <p>
+          <strong>分組逛：</strong><br>
+          購物組 → 1F 超市掃貨 + 2F 服飾<br>
+          輪椅+老人家 → 1F ダイソー + Starbucks 坐著等<br>
+          <br>
+          <strong>結帳技巧：</strong>零食飲料集中到 1F 超市一次結帳（比小店零散買快）<br>
+          <strong>退稅：</strong>護照帶著，單店滿 ¥5,000 可免稅（食品和一般商品分開算）<br>
+          <br>
+          <strong style="color:var(--orange);">振宏：買球拍</strong><br>
+          AEON 3F <a href="https://www.google.com/maps/search/ベスト電器+イオン那覇" target="_blank" style="color:var(--blue);">ベスト電器</a> 旁有運動用品區可以先看<br>
+          如果沒有 → D5 Outlet 旁 <a href="https://www.google.com/maps/search/スーパースポーツゼビオ+iias沖縄豊崎" target="_blank" style="color:var(--blue);">XEBIO iias 沖繩豐崎</a>（車程 3 分，YONEX 齊全）<br>
+          或 D2 去 AEON 小祿路上順路 <a href="https://www.google.com/maps/search/スポーツデポ+南風原" target="_blank" style="color:var(--blue);">Sports Depo 南風原店</a>（大型運動用品店）
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 午餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">11:30</div>
+    <div class="card">
+      <h3>午餐 AEON 內</h3>
+      <ul>
+        <li><strong>首選 <a href="https://www.google.com/maps/search/ステーキハウス88Jr+イオン那覇" target="_blank" style="color:var(--blue);">88 Jr.</a></strong>｜3F・沖繩牛排 &yen;1,000 起（飯湯沙拉吃到飽）・51 席</li>
+        <li>備選 <a href="https://www.google.com/maps/search/楽庵+イオン那覇" target="_blank" style="color:var(--blue);">和食 楽庵</a>｜3F・和食定食 &yen;1,200・80 席</li>
+        <li>備選 <a href="https://www.google.com/maps/search/くら寿司+イオン那覇" target="_blank" style="color:var(--blue);">くら寿司</a>｜2F・迴轉壽司 &yen;1,000・214 席</li>
+        <li>自由 1F 美食街｜<a href="https://www.google.com/maps/search/亀そば+イオン那覇" target="_blank" style="color:var(--blue);">亀そば</a> / Pizza House Jr.</li>
+      </ul>
+      <img src="https://s88.co.jp/assets/img/top/choosing-pic01.jpg" alt="ステーキハウス 88 Jr. 沖繩牛排" width="100%" style="border-radius:8px;margin-top:8px;max-height:180px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：88 Jr. 用餐</h4>
+        <p>
+          3F 搭電梯到 → 88 Jr. 門口等帶位<br>
+          51 席不大，平日應該 OK，但 9 人建議跟店員說一聲<br>
+          輪椅：店內桌椅可移動，跟店員說「車椅子2台」會幫安排<br>
+          牛排附白飯湯沙拉吃到飽，老人家也吃得慣
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 國際通 -->
+  <div class="block">
+    <div class="dot drive"></div>
+    <div class="time">12:30</div>
+    <div class="card">
+      <h3>開車到國際通 <span class="tag min">13 分 / 4.4km</span></h3>
+      <div class="warn-box">
+        <h4>停車注意</h4>
+        <p>
+          國際通本身不能停車，要停附近停車場<br>
+          建議：<strong>Times 牧志第1</strong>或周邊投幣停車場<br>
+          2 台 Alphard 要找限寬 1.9m 以上的<br>
+          停好車 → 步行到國際通（3-5 分鐘）
+        </p>
+      </div>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/イオン那覇店/国際通り+那覇" target="_blank">開啟導航</a>    </div>
+  </div>
+
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">13:00</div>
+    <div class="card">
+      <h3>國際通散策 <span class="tag wheelchair">平坦好推</span></h3>
+      <img src="https://098free.com/img/spot/naha/02DSC03476_m.jpg" alt="國際通" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：輪椅逛國際通</h4>
+        <p>
+          <strong>好消息：國際通人行道平坦，輪椅很好推</strong><br>
+          路面有導盲磚，基本上全程無段差<br>
+          <br>
+          建議路線（從牧志方向往縣廳方向走）：<br>
+          1. Blue Seal 冰淇淋 → 門口平坦可進<br>
+          2. 唐吉訶德國際通店 → 店內較擠，輪椅可進但不好轉彎<br>
+          &emsp;建議：1-2人陪輪椅在外面等，其他人進去買<br>
+          3. 御菓子御殿 → 可試吃紅芋塔<br>
+          4. 各種伴手禮店<br>
+          <br>
+          <strong>老人家走慢：</strong>不用走完全程<br>
+          可以分組：年輕人逛遠一點，輪椅+老人家在入口附近慢慢看<br>
+          約好時間地點集合
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 牧志市場 -->
+  <div class="block">
+    <div class="dot spot"></div>
+    <div class="time">14:00</div>
+    <div class="card">
+      <h3>第一牧志公設市場 <span class="tag wheelchair">有電梯</span></h3>
+      <img src="https://www.okinawastory.jp/files/attractions/000/001/006/images_2a07b6fb505d0a59874bb97f452c966a902db5a6-w800.jpg" alt="第一牧志公設市場" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+      <div class="sim-box">
+        <h4>模擬：牧志市場動線</h4>
+        <p>
+          從國際通走進市場商店街（有屋頂）→ 約 5 分鐘到<br>
+          <br>
+          <strong>市場結構：</strong><br>
+          1F：鮮魚、豬肉、海產攤位（可以買海鮮請 2F 代煮）<br>
+          2F：食堂區（代客料理）<br>
+          有電梯連接 1F ↔ 2F<br>
+          <br>
+          <strong>輪椅注意：</strong><br>
+          - 1F 攤位間走道約 1.5m，輪椅勉強可過但會擁擠<br>
+          - 建議：輪椅走中央主通道，不鑽進小攤位<br>
+          - 或者輪椅使用者在 2F 食堂等，其他人下 1F 買海鮮上來煮<br>
+          <br>
+          <strong>不一定要在這裡吃</strong>，已經吃過午餐了<br>
+          逛逛看看市場氣氛就好
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回飯店 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">17:00</div>
+    <div class="card">
+      <h3>回飯店休息 <span class="tag min">步行 6 分 / 0.5km</span></h3>
+      <div class="sim-box">
+        <h4>模擬：走回飯店</h4>
+        <p>
+          從牧志市場走回 Alphabed Inn 只有 0.5km<br>
+          路線平坦，輪椅 OK<br>
+          老人家走慢約 10 分鐘<br>
+          <br>
+          回房間休息 1.5 小時<br>
+          上廁所、換衣服、充電、小睡
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 晚餐 -->
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">18:20</div>
+    <div class="card">
+      <h3>出發去晚餐 <span class="tag min">步行 10 分 / 0.7km</span></h3>
+      <div class="sim-box">
+        <h4>模擬：走到首里天楼</h4>
+        <p>
+          路線：飯店出門 → 沿國際通往牧志方向走<br>
+          0.7km 平坦路面，輪椅 OK<br>
+          老人家走慢約 15 分 → 18:20 出發剛好 18:35 到<br>
+          <strong>預約 18:30，提早 5 分鐘到比較好</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="dot food"></div>
+    <div class="time">18:30</div>
+    <div class="card">
+      <h3>晚餐 首里天楼 <span class="tag important">需預約</span></h3>
+      <div class="sim-box">
+        <h4>模擬：首里天楼用餐</h4>
+        <p>
+          1. 到 1F 入口，跟接待說「予約、9名、陳」<br>
+          <strong style="color:#d97706;">（需事先電話預約：098-852-3305 團體專線，告知 9人、輪椅x2、桌席）</strong><br>
+          2. 250 席大餐廳，有電梯、無障礙廁所<br>
+          3. 輪椅直接推到桌席，不需換位<br>
+          4. <strong>琉球舞踊表演</strong> 19:00 / 20:00（觀賞費 &yen;1,320/人）<br>
+          &emsp;→ 18:30 入場剛好看 19:00 場<br>
+          &emsp;→ 邊吃邊看，不用移動<br>
+          5. 琉球宮廷料理 &yen;3,000-5,000/人<br>
+          6. 用餐約 2 小時<br>
+          <br>
+          <strong>這裡是整趟旅程輪椅友善最好的餐廳</strong>
+        </p>
+      </div>
+      <p style="margin-top:8px;font-size:13px;color:var(--sub);">
+        團體預約電話：098-852-3305
+      </p>
+      <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/首里天楼+那覇市牧志" target="_blank">導航到首里天楼</a>      <img src="https://img.retty.me/img_ebisu/restaurant/100000686529/archive/3321893-6656c47c6b2b2.jpg" alt="首里天楼 琉球料理" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+
+      <details style="margin-top:12px;">
+        <summary style="font-size:14px;font-weight:600;cursor:pointer;color:var(--text);">其他晚餐選項</summary>
+        <div style="margin-top:8px;">
+          <!-- 波照間 -->
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              波照間（はてるま）<span class="tag min">步行 8 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              沖繩鄉土料理 + 三線演奏・&yen;3,000~4,000/人<br>
+              老牌名店，菜色超多。座位多元：桌席、座敷、包廂<br>
+              營業到 23:00（L.O. 22:00）<br>
+              <strong>輪椅：</strong>古民家風可能有段差，需電話確認<br>
+              電話：098-863-8859
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/波照間+国際通り店+那覇" target="_blank" style="margin-top:6px;">導航</a>          </div>
+          <!-- 焼肉パナリ -->
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              焼肉パナリ <span class="tag min">步行 13 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              石垣牛燒肉・&yen;4,000~5,000/人<br>
+              通道較窄，輪椅需確認<br>
+              電話：098-860-7135
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/焼肉パナリ+安里" target="_blank" style="margin-top:6px;">導航</a>
+          </div>
+          <!-- Sam's -->
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+            <h4 style="font-size:13px;font-weight:700;margin-bottom:4px;">
+              Sam's Sailor Inn <span class="tag min">步行 5 分</span>
+            </h4>
+            <p style="font-size:12px;color:var(--sub);line-height:1.7;">
+              鐵板燒秀・&yen;3,335~5,000/人<br>
+              眼前表演現煎牛排，老人小孩都有趣<br>
+              輪椅需確認<br>
+              電話：098-918-0808
+            </p>
+            <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/Sam's+Sailor+Inn+牧志" target="_blank" style="margin-top:6px;">導航</a>          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 回飯店 -->
+  <div class="block">
+    <div class="dot rest"></div>
+    <div class="time">21:00</div>
+    <div class="card">
+      <h3>走路回飯店 <span class="tag min">步行 10 分</span></h3>
+      <ul>
+        <li>國際通有路燈，晚上走路安全</li>
+        <li>回飯店洗澡休息</li>
+        <li style="color:var(--orange);font-weight:600;">明天 10:00 退房 → 今晚先把行李整理好</li>
+        <li>車停 Times 牧志（2台 x &yen;770 = &yen;1,540）</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="summary">
+  <h3>Day 2 時間軸</h3>
+  <p style="font-size:13px;color:var(--sub);line-height:2;">
+    08:30 司機搭Uber去COLDIO取車<br>
+    09:45 全員上車（9人 / 2台）<br>
+    10:15 AEON 小祿（採買）<br>
+    11:30 午餐 88 Jr. 牛排<br>
+    12:30 開車到國際通<br>
+    13:00 國際通散策（輪椅OK）<br>
+    14:00 牧志公設市場<br>
+    17:00 走回飯店休息<br>
+    18:20 走路出發去晚餐<br>
+    18:30 首里天楼（琉球舞踊 19:00）<br>
+    21:00 走回飯店
+  </p>
+</div>
+
+<div style="text-align:center;padding:20px;display:flex;gap:12px;justify-content:center;">
+  <a class="nav-btn" href="day1.html" style="background:var(--gray);">&larr; Day 1</a>
+  <a class="nav-btn" href="day3.html" style="background:#10b981;">Day 3 &rarr;</a>
+</div>
+
+<script>
+document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day2_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
+</script>
+
+</body>
+</html>

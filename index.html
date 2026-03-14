@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 沖繩家族旅遊</title>
+<style>
+  :root {
+    --blue: #0ea5e9; --green: #10b981; --orange: #f59e0b;
+    --red: #ef4444; --purple: #8b5cf6; --gray: #64748b;
+    --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --sub: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .hero {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    color: white; padding: 32px 20px 28px; text-align: center;
+  }
+  .hero h1 { font-size: 24px; font-weight: 800; }
+  .hero p { font-size: 14px; opacity: 0.85; margin-top: 6px; }
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; padding: 16px; margin-top: -16px;
+  }
+  .info-card {
+    background: var(--card); border-radius: 12px; padding: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    text-align: center;
+  }
+  .info-card .label { font-size: 11px; color: var(--sub); font-weight: 600; text-transform: uppercase; }
+  .info-card .value { font-size: 18px; font-weight: 700; margin-top: 4px; }
+  .info-card .value.small { font-size: 14px; }
+  .section { padding: 0 16px; margin-top: 20px; }
+  .section h2 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .day-card {
+    display: flex; align-items: stretch;
+    background: var(--card); border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    margin-bottom: 12px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform 0.15s;
+  }
+  .day-card:active { transform: scale(0.98); }
+  .day-accent { width: 6px; flex-shrink: 0; }
+  .day-body { padding: 16px; flex: 1; }
+  .day-body .day-label { font-size: 12px; font-weight: 700; color: var(--sub); }
+  .day-body h3 { font-size: 16px; font-weight: 700; margin: 2px 0 6px; }
+  .day-body p { font-size: 13px; color: var(--sub); line-height: 1.5; }
+  .day-arrow { display: flex; align-items: center; padding: 0 14px; color: var(--border); font-size: 20px; }
+  .members {
+    background: var(--card); border-radius: 12px; padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+  }
+  .member-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-name { font-weight: 600; }
+  .member-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 99px;
+    font-weight: 600;
+  }
+  .tag-kaohsiung { background: #dbeafe; color: #2563eb; }
+  .tag-taoyuan { background: #dcfce7; color: #16a34a; }
+  .contacts {
+    background: var(--card); border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .contact-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row .name { font-weight: 600; }
+  .contact-row a {
+    color: var(--blue); text-decoration: none; font-weight: 600;
+  }
+  .cost-summary {
+    background: var(--card); border-radius: 12px; padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+  }
+  .cost-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .cost-row:last-child { border: none; font-weight: 700; font-size: 15px; color: var(--blue); }
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+
+  .footer { text-align: center; padding: 32px 16px; font-size: 12px; color: var(--sub); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>2026 沖繩家族旅遊</h1>
+  <p>03/31 (二) — 04/04 (六) ・ 5天4夜 ・ 9人</p>
+</div>
+
+<div class="info-grid">
+  <div class="info-card">
+    <div class="label">人數</div>
+    <div class="value">9 人</div>
+  </div>
+  <div class="info-card">
+    <div class="label">天數</div>
+    <div class="value">5天4夜</div>
+  </div>
+  <div class="info-card">
+    <div class="label">租車</div>
+    <div class="value small">Alphard x2</div>
+  </div>
+  <div class="info-card">
+    <div class="label">每人費用</div>
+    <div class="value small">~NT$14,335</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>每日行程</h2>
+
+  <a class="day-card" href="day1.html">
+    <div class="day-accent" style="background:#ef4444"></div>
+    <div class="day-body">
+      <div class="day-label">03/31 (二)</div>
+      <h3>Day 1 — 抵達那霸</h3>
+      <p>3 組航班抵達 → 晚餐（機場 or 龍潭）→ 入住 Alphabed Inn</p>
+    </div>
+    <div class="day-arrow">›</div>
+  </a>
+
+  <a class="day-card" href="day2.html">
+    <div class="day-accent" style="background:#f59e0b"></div>
+    <div class="day-body">
+      <div class="day-label">04/01 (三)</div>
+      <h3>Day 2 — 那霸市區</h3>
+      <p>取車 COLDIO → AEON 小祿 → 國際通 → 牧志市場 → 首里天楼</p>
+    </div>
+    <div class="day-arrow">›</div>
+  </a>
+
+  <a class="day-card" href="day3.html">
+    <div class="day-accent" style="background:#10b981"></div>
+    <div class="day-body">
+      <div class="day-label">04/02 (四)</div>
+      <h3>Day 3 — 北上恩納</h3>
+      <p>退房 → 港川外人住宅 → 來客夢 AEON → 入住別墅 → NAKAMA 燒肉</p>
+    </div>
+    <div class="day-arrow">›</div>
+  </a>
+
+  <a class="day-card" href="day4.html">
+    <div class="day-accent" style="background:#0ea5e9"></div>
+    <div class="day-body">
+      <div class="day-label">04/03 (五)</div>
+      <h3>Day 4 — 水族館＋萬座毛</h3>
+      <p>美麗海水族館 → 花開市集 → 萬座毛夕陽 → しまぶた屋</p>
+    </div>
+    <div class="day-arrow">›</div>
+  </a>
+
+  <a class="day-card" href="day5.html">
+    <div class="day-accent" style="background:#8b5cf6"></div>
+    <div class="day-body">
+      <div class="day-label">04/04 (六)</div>
+      <h3>Day 5 — 返程日</h3>
+      <p>退房 → Ashibinaa Outlet → 還車 → 機場回台灣</p>
+    </div>
+    <div class="day-arrow">›</div>
+  </a>
+</div>
+
+<div class="section">
+  <h2>成員</h2>
+  <div class="members">
+    <div class="member-row"><span class="member-name">Aly</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">Annie</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">雅凌</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">子誠</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">繐菁</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">承家</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">金葉</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
+    <div class="member-row"><span class="member-name">振宏</span><span class="member-tag tag-taoyuan">桃園 BR186</span></div>
+    <div class="member-row"><span class="member-name">冠宥</span><span class="member-tag tag-taoyuan">桃園 MM924</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>費用總覽</h2>
+  <div class="cost-summary">
+    <div class="cost-row"><span>那霸住宿 2晚</span><span>NT$24,483</span></div>
+    <div class="cost-row"><span>恩納別墅 2晚</span><span>NT$38,062</span></div>
+    <div class="cost-row"><span>租車 x2</span><span>NT$18,130</span></div>
+    <div class="cost-row"><span>交通雜費</span><span>NT$2,699</span></div>
+    <div class="cost-row"><span>水族館+萬座毛</span><span>NT$2,265</span></div>
+    <div class="cost-row"><span>餐費 8餐估算</span><span>NT$4,820</span></div>
+    <div class="cost-row"><span>每人合計（不含購物）</span><span>~NT$14,335</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>重要聯絡</h2>
+  <div class="contacts">
+    <div class="contact-row"><span class="name">緊急 (警察)</span><a href="tel:110">110</a></div>
+    <div class="contact-row"><span class="name">緊急 (救護)</span><a href="tel:119">119</a></div>
+    <div class="contact-row"><span class="name">台灣代表處</span><a href="tel:+81988627008">+81-98-862-7008</a></div>
+    <div class="contact-row"><span class="name">Alphabed Inn</span><a href="tel:0989637007">098-963-7007</a></div>
+    <div class="contact-row"><span class="name">Laguna Fuchaku</span><a href="tel:+81508837560">+81-50-8883-7560</a></div>
+    <div class="contact-row"><span class="name">COLDIO 租車</span><a href="tel:05038154823">050-3815-4823</a></div>
+    <div class="contact-row"><span class="name">華航客服</span><a href="tel:4129000">412-9000</a></div>
+    <div class="contact-row"><span class="name">長榮客服</span><a href="tel:0225011999">(02)2501-1999</a></div>
+  </div>
+</div>
+
+<div class="footer">
+  2026 沖繩家族旅遊 ・ 最後更新 2026-03-13
+</div>
+
+</body>
+</html>
