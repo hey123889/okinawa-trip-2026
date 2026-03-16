@@ -242,45 +242,56 @@
   .alert-deadline p { font-size: 14px; color: #dc2626; font-weight: 600; }
   .alert-deadline span { font-weight: 400; }
 
-  /* Dark Mode */
-  @media(prefers-color-scheme:dark){
-    :root{--bg:#0c0a09;--card:#1c1917;--border:#292524;--text:#fafaf9;--sub:#a8a29e;--muted:#78716c}
-    body{background:var(--bg);color:var(--text)}
-    .hero{background:linear-gradient(155deg,#134e4a 0%,#164e63 40%,#1e3a5f 100%)!important}
-    .hero::before{background:var(--bg)}
-    .info-card,.members,.contacts,.checklist-card,.reserve-card{background:var(--card);border-color:var(--border)}
-    .day-card{background:var(--card);border-color:var(--border)}
-    .day-arrow{color:var(--muted)}
-    .member-row{border-color:var(--border)}
-    .contact-row{border-color:var(--border)}
-    .contact-row a{background:#1c2432;color:#67e8f9}
-    .contact-row:nth-child(-n+2) a{background:#2d1215;color:#fca5a5}
-    .jp-card{background:#1c2432;border-color:#1e3a5f}
-    .jp-card p{color:var(--text)}
-    .reserve-pending{background:#2d1f00;border-color:#5c3d00}
-    .now-btn{box-shadow:0 6px 20px rgba(0,0,0,0.5)}
-    .checklist-group:not(:first-child){border-color:var(--border)}
-    .alert-deadline{background:#2d1215;border-color:#5c1d24}
-    .alert-deadline p{color:#fca5a5}
-    a{color:#67e8f9}
-    strong{color:var(--text)}
-    details summary{color:var(--text)}
-    input[type="checkbox"]{accent-color:#2dd4bf}
-    .tag-kaohsiung{background:#1e3a5f;color:#93c5fd}
-    .tag-taoyuan{background:#0d2818;color:#6ee7b7}
-    [style*="background:#fffbeb"]{background:#2d1f00!important;border-color:#5c3d00!important}
-    [style*="background:#f8fafc"]{background:#1c1917!important}
-    [style*="background:var(--card)"]{background:var(--card)!important;border-color:var(--border)!important}
-    [style*="color:#1d4ed8"]{color:#93c5fd!important}
-    [style*="color:#dc2626"]{color:#fca5a5!important}
-    [style*="color:#d97706"]{color:#fbbf24!important}
-    .footer{color:#57534e}
+  /* Theme Toggle Button */
+  .theme-toggle {
+    position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 16px;
+    z-index: 10; background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+    border: none; border-radius: 50%; width: 44px; height: 44px;
+    font-size: 22px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    transition: transform 0.3s;
   }
+  .theme-toggle:active { transform: scale(0.9); }
+
+  /* Dark Mode — class-based (.dark on <html>) */
+  html.dark { --bg:#0c0a09;--card:#1c1917;--border:#292524;--text:#fafaf9;--sub:#a8a29e;--muted:#78716c; }
+  html.dark body{background:var(--bg);color:var(--text)}
+  html.dark .hero{background:linear-gradient(155deg,#134e4a 0%,#164e63 40%,#1e3a5f 100%)!important}
+  html.dark .hero::before{background:var(--bg)}
+  html.dark .info-card,html.dark .members,html.dark .contacts,html.dark .checklist-card,html.dark .reserve-card{background:var(--card);border-color:var(--border)}
+  html.dark .day-card{background:var(--card);border-color:var(--border)}
+  html.dark .day-arrow{color:var(--muted)}
+  html.dark .member-row{border-color:var(--border)}
+  html.dark .contact-row{border-color:var(--border)}
+  html.dark .contact-row a{background:#1c2432;color:#67e8f9}
+  html.dark .contact-row:nth-child(-n+2) a{background:#2d1215;color:#fca5a5}
+  html.dark .jp-card{background:#1c2432;border-color:#1e3a5f}
+  html.dark .jp-card p{color:var(--text)}
+  html.dark .reserve-pending{background:#2d1f00;border-color:#5c3d00}
+  html.dark .now-btn{box-shadow:0 6px 20px rgba(0,0,0,0.5)}
+  html.dark .checklist-group:not(:first-child){border-color:var(--border)}
+  html.dark .alert-deadline{background:#2d1215;border-color:#5c1d24}
+  html.dark .alert-deadline p{color:#fca5a5}
+  html.dark a{color:#67e8f9}
+  html.dark strong{color:var(--text)}
+  html.dark details summary{color:var(--text)}
+  html.dark input[type="checkbox"]{accent-color:#2dd4bf}
+  html.dark .tag-kaohsiung{background:#1e3a5f;color:#93c5fd}
+  html.dark .tag-taoyuan{background:#0d2818;color:#6ee7b7}
+  html.dark [style*="background:#fffbeb"]{background:#2d1f00!important;border-color:#5c3d00!important}
+  html.dark [style*="background:#f8fafc"]{background:#1c1917!important}
+  html.dark [style*="background:var(--card)"]{background:var(--card)!important;border-color:var(--border)!important}
+  html.dark [style*="color:#1d4ed8"]{color:#93c5fd!important}
+  html.dark [style*="color:#dc2626"]{color:#fca5a5!important}
+  html.dark [style*="color:#d97706"]{color:#fbbf24!important}
+  html.dark .footer{color:#57534e}
+  html.dark .theme-toggle{background:rgba(0,0,0,0.3)}
 </style>
 </head>
 <body>
 
 <div class="hero">
+  <button class="theme-toggle" id="themeToggle" aria-label="切換日夜模式">🌙</button>
   <div class="hero-content">
     <span class="hero-emoji">🏝️</span>
     <h1>葉世家族旅遊</h1>
@@ -560,6 +571,26 @@
 </div>
 
 <script>
+// Theme toggle
+(function(){
+  const html = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  // Init: use saved preference, or follow system
+  if(saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme:dark)').matches)){
+    html.classList.add('dark');
+    btn.textContent = '☀️';
+  }
+  btn.onclick = function(){
+    html.classList.toggle('dark');
+    const isDark = html.classList.contains('dark');
+    btn.textContent = isDark ? '☀️' : '🌙';
+    btn.style.transform = 'scale(0.8) rotate(180deg)';
+    setTimeout(()=>{ btn.style.transform = ''; }, 300);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  };
+})();
+
 // Countdown
 (function(){
   const trip = new Date('2026-03-31T00:00:00+09:00');
