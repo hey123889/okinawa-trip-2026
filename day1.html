@@ -9,11 +9,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://www.okinawastory.jp">
 <link rel="preconnect" href="https://churaumi.okinawa">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800;900&display=swap" rel="stylesheet">
 <title>Day 1 — 抵達那霸</title>
 <style>
-  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#475569}
+  :root{--blue:#0891b2;--green:#059669;--orange:#ea580c;--red:#dc2626;--purple:#7c3aed;--gray:#78716c;--bg:#faf9f6;--card:#ffffff;--border:#e8e4de;--text:#1c1917;--sub:#57534e;--muted:#a8a29e;--teal:#0d9488;--coral:#f97066}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:120px}
+  body{font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:120px}
   .header{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;padding:24px 20px 20px;position:sticky;top:0;z-index:100}
   .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:15px;opacity:1;padding:8px 14px;background:rgba(255,255,255,0.15);border-radius:8px;display:inline-block}
   .timeline{padding:16px;position:relative}.timeline::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:2px;background:var(--border)}
@@ -27,7 +30,7 @@
   .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
   .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
   .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
-  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 22px;border-radius:12px;min-height:48px;margin-top:8px}.nav-btn:active{opacity:.8}
 
   .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
   .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
@@ -44,7 +47,7 @@
   .checklist h3{font-size:15px;font-weight:700;margin-bottom:8px}
   .checklist label{display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer}
   .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green)}
-  .now-btn{position:fixed;bottom:60px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
+  .now-btn{position:fixed;bottom:60px;right:20px;z-index:200;background:#f97066;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
   .now-btn:active{transform:scale(.95)}
   .highlight-card{box-shadow:0 0 0 3px #ef4444 !important;transition:box-shadow .3s}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;display:flex;background:#fff;border-top:1px solid var(--border);box-shadow:0 -2px 8px rgba(0,0,0,.08);padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px}
@@ -53,95 +56,103 @@
 .progress-bar-visual span{flex:1;border-radius:3px;transition:background .3s}
 .progress-labels{display:flex;justify-content:space-between;padding:4px 16px 0;font-size:11px;color:var(--sub)}
   label:has(input:checked){text-decoration:line-through;opacity:.5}
-  @media(prefers-color-scheme:dark){
-    :root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#f1f5f9;--sub:#94a3b8}
-    body{background:var(--bg);color:var(--text)}
-    .hero,.header{background:linear-gradient(135deg,#1e3a5f,#312e81)!important}
-    .info-card,.card,.members,.contacts,.cost-summary,.summary,.checklist{background:var(--card);border-color:var(--border)}
-    .sim-box{background:#0d2818;border-color:#1a4d2e}
-    .sim-box h4{color:#4ade80}
-    .warn-box{background:#2d1f00;border-color:#5c3d00}
-    .warn-box h4{color:#fbbf24}
-    .warn-box p{color:#fcd34d}
-    .option-box{border-color:var(--border)}
-    .day-card{background:var(--card);border-color:var(--border)}
-    .day-arrow{color:var(--sub)}
-    .member-row{border-color:var(--border)}
-    .contact-row{border-color:var(--border)}
-    .cost-row{border-color:var(--border)}
-    .bottom-nav{background:var(--card);border-color:var(--border)}
-    .now-btn{box-shadow:0 4px 12px rgba(0,0,0,.6)}
-    .progress-bar-visual{opacity:.85}
-    img{opacity:.85;border-radius:8px}
-    a{color:#60a5fa}
-    .nav-btn{opacity:.95}
-    details summary{color:var(--text)}
-    input[type="checkbox"]{accent-color:#22c55e}
-    .tag.min{background:#334155;color:#94a3b8}
-    .tag.important{background:#78350f;color:#fbbf24}
-    .tag.wheelchair{background:#3b0764;color:#c084fc}
-    div[style*="background:#eff6ff"]{background:#1e293b!important;border-color:#334155!important}
-    div[style*="background:#eff6ff"] p{color:#93c5fd!important}
-    div[style*="background:#f8fafc"]{background:#1e293b!important;border-color:#334155!important}
-    div[style*="background:#fffbeb"]{background:#2d1f00!important;border-color:#5c3d00!important}
-    div[style*="background:#f0fdf4"]{background:#0d2818!important;border-color:#1a4d2e!important}
-    div[style*="background:#fef2f2"]{background:#3b0000!important;border-color:#7f1d1d!important}
-    div[style*="background:#fef3c7"]{background:#2d1f00!important;border-color:#5c3d00!important}
-    .footer{color:#64748b}
-    /* Fix inline color contrast */
-    [style*="color:#1d4ed8"]{color:#93c5fd!important}
-    [style*="color:#16a34a"]{color:#4ade80!important}
-    [style*="color:#92400e"]{color:#fcd34d!important}
-    [style*="color:#d97706"]{color:#fbbf24!important}
-    [style*="color:#dc2626"]{color:#f87171!important}
-    [style*="color:#78350f"]{color:#fcd34d!important}
-    [style*="color:#991b1b"]{color:#fca5a5!important}
-    /* Fix inline background contrast */
-    [style*="background:#fff"]{background:var(--card)!important}
-    [style*="background:white"]{background:var(--card)!important}
-    [style*="background:#f8fafc"]{background:#1e293b!important}
-    /* Fix blue phrase cards text */
-    div[style*="background:#eff6ff"] [style*="color:#1d4ed8"]{color:#93c5fd!important}
-    /* Fix green sim-box inline text */
-    div[style*="background:#f0fdf4"] [style*="color:#16a34a"]{color:#4ade80!important}
-    /* Fix warn-box inline text */
-    div[style*="background:#fffbeb"] [style*="color:#92400e"]{color:#fcd34d!important}
-    div[style*="background:#fffbeb"] [style*="color:#d97706"]{color:#fbbf24!important}
-    /* Fix red alert box text */
-    div[style*="background:#fef2f2"] [style*="color:#dc2626"]{color:#f87171!important}
-    div[style*="background:#fef2f2"] p{color:#fca5a5!important}
-    /* Fix restaurant option boxes with white bg */
-    .option-box [style*="background:#fff"]{background:#1e293b!important;border-color:#334155!important}
-    /* Fix details/summary text */
-    details div[style*="background:#f8fafc"]{background:#1e293b!important}
-    /* Fix checklist section backgrounds */
-    div[style*="background:var(--card)"]{background:var(--card)!important;border-color:var(--border)!important}
-    /* Ensure all p tags inside cards are readable */
-    .card p,.card li{color:var(--sub)}
-    .card h3{color:var(--text)}
-    /* Fix strong tags that might be too dark */
-    strong{color:var(--text)}
-    /* Fix alert-box for dark mode */
-    .alert-box{background:#3b0000!important;border-color:#7f1d1d!important}
-    .alert-box h3{color:#f87171!important}
-    .alert-box p{color:#fca5a5!important}
-    /* Fix ticket-box for dark mode */
-    .ticket-box{background:#1e293b!important;border-color:#334155!important}
-    .ticket-box h4{color:#93c5fd}
-    .ticket-box p{color:var(--sub)}
-    /* Fix tag colors in dark mode */
-    .tag.free{background:#0d2818;color:#4ade80}
-    .tag.urgent{background:#3b0000;color:#f87171}
-    .tag-kaohsiung{background:#1e3a5f;color:#93c5fd}
-    .tag-taoyuan{background:#0d2818;color:#4ade80}
-    /* Fix cost-table in dark mode */
-    .cost-table td{border-color:var(--border);color:var(--sub)}
-    .cost-table tr:last-child td{color:#60a5fa}
-  }
+  .theme-toggle{position:absolute;top:calc(12px + env(safe-area-inset-top));right:16px;z-index:110;background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.3s}
+  .theme-toggle:active{transform:scale(0.9)}
+  /* Dark Mode */
+  html.dark{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#f1f5f9;--sub:#94a3b8}
+  html.dark body{background:var(--bg);color:var(--text)}
+  html.dark .hero,html.dark .header{background:linear-gradient(135deg,#1e3a5f,#312e81)!important}
+  html.dark .info-card,html.dark .card,html.dark .members,html.dark .contacts,html.dark .cost-summary,html.dark .summary,html.dark .checklist{background:var(--card);border-color:var(--border)}
+  html.dark .sim-box{background:#0d2818;border-color:#1a4d2e}
+  html.dark .sim-box h4{color:#4ade80}
+  html.dark .warn-box{background:#2d1f00;border-color:#5c3d00}
+  html.dark .warn-box h4{color:#fbbf24}
+  html.dark .warn-box p{color:#fcd34d}
+  html.dark .option-box{border-color:var(--border)}
+  html.dark .day-card{background:var(--card);border-color:var(--border)}
+  html.dark .day-arrow{color:var(--sub)}
+  html.dark .member-row{border-color:var(--border)}
+  html.dark .contact-row{border-color:var(--border)}
+  html.dark .cost-row{border-color:var(--border)}
+  html.dark .bottom-nav{background:var(--card);border-color:var(--border)}
+  html.dark .now-btn{box-shadow:0 4px 12px rgba(0,0,0,.6)}
+  html.dark .progress-bar-visual{opacity:.85}
+  html.dark img{opacity:.85;border-radius:8px}
+  html.dark a{color:#60a5fa}
+  html.dark .nav-btn{opacity:.95}
+  html.dark details summary{color:var(--text)}
+  html.dark input[type="checkbox"]{accent-color:#22c55e}
+  html.dark .tag.min{background:#334155;color:#94a3b8}
+  html.dark .tag.important{background:#78350f;color:#fbbf24}
+  html.dark .tag.wheelchair{background:#3b0764;color:#c084fc}
+  html.dark div[style*="background:#eff6ff"]{background:#1e293b!important;border-color:#334155!important}
+  html.dark div[style*="background:#eff6ff"] p{color:#93c5fd!important}
+  html.dark div[style*="background:#f8fafc"]{background:#1e293b!important;border-color:#334155!important}
+  html.dark div[style*="background:#fffbeb"]{background:#2d1f00!important;border-color:#5c3d00!important}
+  html.dark div[style*="background:#f0fdf4"]{background:#0d2818!important;border-color:#1a4d2e!important}
+  html.dark div[style*="background:#fef2f2"]{background:#3b0000!important;border-color:#7f1d1d!important}
+  html.dark div[style*="background:#fef3c7"]{background:#2d1f00!important;border-color:#5c3d00!important}
+  html.dark .footer{color:#64748b}
+  /* Fix inline color contrast */
+  html.dark [style*="color:#1d4ed8"]{color:#93c5fd!important}
+  html.dark [style*="color:#16a34a"]{color:#4ade80!important}
+  html.dark [style*="color:#92400e"]{color:#fcd34d!important}
+  html.dark [style*="color:#d97706"]{color:#fbbf24!important}
+  html.dark [style*="color:#dc2626"]{color:#f87171!important}
+  html.dark [style*="color:#78350f"]{color:#fcd34d!important}
+  html.dark [style*="color:#991b1b"]{color:#fca5a5!important}
+  /* Fix inline background contrast */
+  html.dark [style*="background:#fff"]{background:var(--card)!important}
+  html.dark [style*="background:white"]{background:var(--card)!important}
+  html.dark [style*="background:#f8fafc"]{background:#1e293b!important}
+  /* Fix blue phrase cards text */
+  html.dark div[style*="background:#eff6ff"] [style*="color:#1d4ed8"]{color:#93c5fd!important}
+  /* Fix green sim-box inline text */
+  html.dark div[style*="background:#f0fdf4"] [style*="color:#16a34a"]{color:#4ade80!important}
+  /* Fix warn-box inline text */
+  html.dark div[style*="background:#fffbeb"] [style*="color:#92400e"]{color:#fcd34d!important}
+  html.dark div[style*="background:#fffbeb"] [style*="color:#d97706"]{color:#fbbf24!important}
+  /* Fix red alert box text */
+  html.dark div[style*="background:#fef2f2"] [style*="color:#dc2626"]{color:#f87171!important}
+  html.dark div[style*="background:#fef2f2"] p{color:#fca5a5!important}
+  /* Fix restaurant option boxes with white bg */
+  html.dark .option-box [style*="background:#fff"]{background:#1e293b!important;border-color:#334155!important}
+  /* Fix details/summary text */
+  html.dark details div[style*="background:#f8fafc"]{background:#1e293b!important}
+  /* Fix checklist section backgrounds */
+  html.dark div[style*="background:var(--card)"]{background:var(--card)!important;border-color:var(--border)!important}
+  /* Ensure all p tags inside cards are readable */
+  html.dark .card p,html.dark .card li{color:var(--sub)}
+  html.dark .card h3{color:var(--text)}
+  /* Fix strong tags that might be too dark */
+  html.dark strong{color:var(--text)}
+  /* Fix alert-box for dark mode */
+  html.dark .alert-box{background:#3b0000!important;border-color:#7f1d1d!important}
+  html.dark .alert-box h3{color:#f87171!important}
+  html.dark .alert-box p{color:#fca5a5!important}
+  /* Fix ticket-box for dark mode */
+  html.dark .ticket-box{background:#1e293b!important;border-color:#334155!important}
+  html.dark .ticket-box h4{color:#93c5fd}
+  html.dark .ticket-box p{color:var(--sub)}
+  /* Fix tag colors in dark mode */
+  html.dark .tag.free{background:#0d2818;color:#4ade80}
+  html.dark .tag.urgent{background:#3b0000;color:#f87171}
+  html.dark .tag-kaohsiung{background:#1e3a5f;color:#93c5fd}
+  html.dark .tag-taoyuan{background:#0d2818;color:#4ade80}
+  /* Fix cost-table in dark mode */
+  html.dark .cost-table td{border-color:var(--border);color:var(--sub)}
+  html.dark .cost-table tr:last-child td{color:#60a5fa}
+  html.dark .theme-toggle{background:rgba(0,0,0,0.3)}
+  .copy-btn{display:inline-flex;align-items:center;gap:4px;background:#e8e4de;color:#57534e;border:none;font-size:13px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:4px}
+  .copy-btn:active{opacity:.7}
+  .copy-btn.copied{background:#d1fae5;color:#059669}
+  html.dark .copy-btn{background:#292524;color:#a8a29e}
+  html.dark .copy-btn.copied{background:#0d2818;color:#4ade80}
 </style>
 </head>
 <body>
 <div class="header">
+  <button class="theme-toggle" id="themeToggle" aria-label="切換日夜模式">🌙</button>
   <a class="back" href="index.html">&larr; 總覽</a>
   <h1>Day 1 — 03/31 (二)</h1>
   <p>3 組航班抵達 → 會合 → 晚餐 → 入住</p>
@@ -248,8 +259,7 @@
           4. 趁等待時間：<br>
           &emsp;- 找到 1F Uber 叫車區位置<br>
           &emsp;- 買 SIM 卡 / 確認 eSIM 連線<br>
-          &emsp;- 偵察晚餐方案 A 的 4F 餐廳是否還有位<br>
-          &emsp;- 在 LINE 群組回報：「我到了，在 ○○ 等」
+          &emsp;- 偵察晚餐方案 A 的 4F 餐廳是否還有位
         </p>
       </div>
     </div>
@@ -345,6 +355,7 @@
               <p style="font-size:12px;color:#1d4ed8;font-weight:600;margin-bottom:4px;">給司機看：</p>
               <p style="font-size:16px;color:var(--text);line-height:1.8;">Alphabed Inn 那覇 East まで お願いします。住所：那覇市壺屋1-18-46</p>
             </div>
+            <a class="nav-btn" href="https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=Alphabed+Inn+Naha+East+那覇市壺屋1-18-46&dropoff[latitude]=26.3339&dropoff[longitude]=127.6912" target="_blank" style="background:#000;">🚕 Uber 叫車到飯店</a>
             <p style="font-size:14px;color:var(--sub);line-height:1.8;">
             5. 16 分 / 5.7km → ~20:00 到飯店<br>
             6. <strong>先 check-in 放行李</strong>（3間房鑰匙）→ 20:15 出發吃飯
@@ -540,6 +551,11 @@
           &emsp;房2: 3363-4966-4479<br>
           &emsp;房3: 3363-4988-7670<br>
           </p>
+<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;">
+  <button class="copy-btn" onclick="copyText('3363-4871-8296',this)">複製</button>
+  <button class="copy-btn" onclick="copyText('3363-4966-4479',this)">複製</button>
+  <button class="copy-btn" onclick="copyText('3363-4988-7670',this)">複製</button>
+</div>
           <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-top:6px;">
             <p style="font-size:12px;color:#1d4ed8;font-weight:600;margin-bottom:4px;">給櫃台看：</p>
             <p style="font-size:16px;color:var(--text);line-height:1.8;">チェックインお願いします。予約番号は3363-4871-8296、3363-4966-4479、3363-4988-7670です。3部屋です。シャワーチェアをお借りできますか。</p>
@@ -577,7 +593,9 @@
         <a class="nav-btn" href="https://www.google.com/maps/dir/Alphabed+Inn+Naha+East/Times+牧志3丁目第2" target="_blank" style="margin-top:8px;">停車場導航</a>
       </div>
       <div style="margin-top:10px;">
-        <a class="nav-btn" href="https://maps.app.goo.gl/ztW6iqwXKvkxpUyTA" target="_blank">飯店 Google Map</a>        <img src="https://alphabed-inn.jp/wp-content/uploads/nahaeast02-min.jpg" alt="Alphabed Inn Naha East" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
+        <a class="nav-btn" href="https://maps.app.goo.gl/ztW6iqwXKvkxpUyTA" target="_blank">飯店 Google Map</a>
+        <button class="copy-btn" onclick="copyText('那覇市壺屋1-18-46 Alphabed Inn Naha East',this)" style="margin-left:6px;">複製地址</button>
+        <img src="https://alphabed-inn.jp/wp-content/uploads/nahaeast02-min.jpg" alt="Alphabed Inn Naha East" width="100%" style="border-radius:8px;margin-top:8px;max-height:200px;object-fit:cover" loading="lazy">
       </div>
     </div>
   </div>
@@ -587,8 +605,9 @@
     <div class="dot rest"></div>
     <div class="time">常用日文</div>
     <div class="card">
-      <h3>常用日文對照（給店員看）</h3>
-      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-top:6px;">
+      <details>
+        <summary style="font-size:16px;font-weight:700;">常用日文對照（給店員看）</summary>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-top:8px;">
         <p style="font-size:14px;color:var(--text);line-height:2.2;">
           <strong>基本：</strong><br>
           謝謝 → ありがとうございます<br>
@@ -619,7 +638,8 @@
           請叫救護車 → 救急車を呼んでください<br>
           我不會說日文 → 日本語がわかりません
         </p>
-      </div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -656,6 +676,24 @@
 </nav>
 
 <script>
+function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);});}
+// Theme toggle
+(function(){
+  var html=document.documentElement;
+  var btn=document.getElementById('themeToggle');
+  var saved=localStorage.getItem('theme');
+  if(saved==='dark'||(!saved&&window.matchMedia('(prefers-color-scheme:dark)').matches)){
+    html.classList.add('dark');btn.textContent='\u2600\uFE0F';
+  }
+  btn.onclick=function(){
+    html.classList.toggle('dark');
+    var isDark=html.classList.contains('dark');
+    btn.textContent=isDark?'\u2600\uFE0F':'\uD83C\uDF19';
+    btn.style.transform='scale(0.8) rotate(180deg)';
+    setTimeout(function(){btn.style.transform='';},300);
+    localStorage.setItem('theme',isDark?'dark':'light');
+  };
+})();
 document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=function(){this.style.display='none'}});
 // Progress bar
 (function(){

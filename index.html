@@ -286,6 +286,11 @@
   html.dark [style*="color:#d97706"]{color:#fbbf24!important}
   html.dark .footer{color:#57534e}
   html.dark .theme-toggle{background:rgba(0,0,0,0.3)}
+  .copy-btn{display:inline-flex;align-items:center;gap:4px;background:#e8e4de;color:#57534e;border:none;font-size:13px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:4px}
+  .copy-btn:active{opacity:.7}
+  .copy-btn.copied{background:#d1fae5;color:#059669}
+  html.dark .copy-btn{background:#292524;color:#a8a29e}
+  html.dark .copy-btn.copied{background:#0d2818;color:#4ade80}
 </style>
 </head>
 <body>
@@ -461,9 +466,12 @@
         我們有9位 → 9名です<br>
         有2台輪椅 → 車椅子が2台あります<br>
         要桌席不要榻榻米 → テーブル席をお願いします<br>
+        <button class="copy-btn" onclick="copyText('9名です。車椅子が2台あります。テーブル席をお願いします。',this)">複製</button><br>
         有預約，姓陳 → 予約した陳（チェン）です<br>
+        <button class="copy-btn" onclick="copyText('予約した陳（チェン）です',this)">複製</button><br>
         我要點餐 → 注文お願いします<br>
         結帳 → お会計お願いします<br>
+        <button class="copy-btn" onclick="copyText('お会計お願いします',this)">複製</button><br>
         可以分開付嗎？ → 別々に払えますか？<br>
         <br>
         <strong>交通：</strong><br>
@@ -472,6 +480,7 @@
         <br>
         <strong>購物：</strong><br>
         可以免稅嗎？ → 免税できますか？<br>
+        <button class="copy-btn" onclick="copyText('免税できますか？',this)">複製</button><br>
         有其他顏色嗎？ → 他の色はありますか？<br>
         <br>
         <strong>緊急：</strong><br>
@@ -499,6 +508,7 @@
     <h3>D2 (4/1) 晚 18:30 — 首里天楼</h3>
     <p>琉球宮廷料理+舞踊｜9人・輪椅x2・桌席</p>
     <a href="tel:098-852-3305" class="call-btn">📞 098-852-3305（團體專線）</a>
+    <button class="copy-btn" onclick="copyText('098-852-3305',this)" style="margin-left:6px;">複製號碼</button>
     <details style="margin-top:10px;">
       <summary style="font-size:14px;font-weight:600;">日文電話稿</summary>
       <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
@@ -530,6 +540,7 @@
     <h3>D3 (4/2) 晚 18:30 — 琉球焼肉 NAKAMA</h3>
     <p>古民家燒肉｜9人・輪椅x2・桌席</p>
     <a href="tel:098-967-7029" class="call-btn">📞 098-967-7029</a>
+    <button class="copy-btn" onclick="copyText('098-967-7029',this)" style="margin-left:6px;">複製號碼</button>
     <details style="margin-top:10px;">
       <summary style="font-size:14px;font-weight:600;">日文電話稿</summary>
       <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
@@ -546,6 +557,7 @@
     <h3>D4 (4/3) 晚 19:00 — しまぶた屋 恩納本店</h3>
     <p>阿古豬蒸籠料理｜9人・輪椅x2・桌席</p>
     <a href="tel:098-966-1450" class="call-btn">📞 098-966-1450</a>
+    <button class="copy-btn" onclick="copyText('098-966-1450',this)" style="margin-left:6px;">複製號碼</button>
     <details style="margin-top:10px;">
       <summary style="font-size:14px;font-weight:600;">日文電話稿</summary>
       <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
@@ -571,6 +583,7 @@
 </div>
 
 <script>
+function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);});}
 // Theme toggle
 (function(){
   const html = document.documentElement;
