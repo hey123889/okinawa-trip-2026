@@ -4,216 +4,316 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0ea5e9">
+<meta name="theme-color" content="#0d9488">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800;900&display=swap" rel="stylesheet">
 <title>葉世家族旅遊 — 2026 沖繩</title>
 <style>
   :root {
-    --blue: #0ea5e9; --green: #10b981; --orange: #f59e0b;
-    --red: #ef4444; --purple: #8b5cf6; --gray: #64748b;
-    --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --sub: #475569;
+    --teal: #0d9488; --coral: #f97066; --sand: #fbbf24;
+    --ocean: #0891b2; --palm: #059669; --sunset: #ea580c;
+    --bg: #faf9f6; --card: #ffffff; --border: #e8e4de;
+    --text: #1c1917; --sub: #57534e; --muted: #a8a29e;
+    --radius: 16px;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-  .hero {
-    background: linear-gradient(135deg, #0ea5e9, #6366f1);
-    color: white; padding: 32px 20px 28px; text-align: center;
+  body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
   }
-  .hero h1 { font-size: 24px; font-weight: 800; }
-  .hero p { font-size: 14px; opacity: 0.85; margin-top: 6px; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(155deg, #0d9488 0%, #0891b2 40%, #0284c7 100%);
+    color: #fff; padding: calc(24px + env(safe-area-inset-top)) 24px 32px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 24px;
+    background: var(--bg); border-radius: 24px 24px 0 0;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-emoji { font-size: 40px; display: block; margin-bottom: 8px; }
+  .hero h1 { font-size: 28px; font-weight: 900; letter-spacing: 2px; }
+  .hero .subtitle {
+    font-size: 15px; opacity: 0.9; margin-top: 8px;
+    font-weight: 400; letter-spacing: 0.5px;
+  }
+  .hero .countdown {
+    display: inline-block; margin-top: 14px;
+    background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+    padding: 8px 20px; border-radius: 99px;
+    font-size: 14px; font-weight: 600;
+  }
+
+  /* Info Grid */
   .info-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8px; padding: 16px; margin-top: -16px;
+    gap: 10px; padding: 0 20px; margin-top: -8px; position: relative; z-index: 2;
   }
   .info-card {
-    background: var(--card); border-radius: 12px; padding: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    background: var(--card); border-radius: var(--radius); padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
     text-align: center;
   }
-  .info-card .label { font-size: 11px; color: var(--sub); font-weight: 600; text-transform: uppercase; }
-  .info-card .value { font-size: 18px; font-weight: 700; margin-top: 4px; }
-  .info-card .value.small { font-size: 14px; }
-  .section { padding: 0 16px; margin-top: 20px; }
-  .section h2 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .info-card .label {
+    font-size: 11px; color: var(--muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .info-card .value { font-size: 18px; font-weight: 800; margin-top: 4px; }
+  .info-card .value.small { font-size: 14px; font-weight: 600; }
+  .info-card .icon { font-size: 20px; margin-bottom: 4px; display: block; }
+
+  /* Sections */
+  .section { padding: 0 20px; margin-top: 28px; }
+  .section-title {
+    font-size: 13px; font-weight: 800; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px;
+  }
+
+  /* Day Cards */
   .day-card {
     display: flex; align-items: stretch;
-    background: var(--card); border-radius: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
     margin-bottom: 12px; overflow: hidden;
     text-decoration: none; color: inherit;
-    transition: transform 0.15s;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: slideUp 0.4s ease both;
   }
-  .day-card:active { transform: scale(0.98); }
-  .day-accent { width: 6px; flex-shrink: 0; }
-  .day-body { padding: 16px; flex: 1; }
-  .day-body .day-label { font-size: 12px; font-weight: 700; color: var(--sub); }
-  .day-body h3 { font-size: 16px; font-weight: 700; margin: 2px 0 6px; }
-  .day-body p { font-size: 13px; color: var(--sub); line-height: 1.5; }
-  .day-arrow { display: flex; align-items: center; padding: 0 14px; color: var(--border); font-size: 20px; }
+  .day-card:nth-child(2) { animation-delay: 0.05s; }
+  .day-card:nth-child(3) { animation-delay: 0.1s; }
+  .day-card:nth-child(4) { animation-delay: 0.15s; }
+  .day-card:nth-child(5) { animation-delay: 0.2s; }
+  .day-card:active { transform: scale(0.97); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .day-accent { width: 5px; flex-shrink: 0; }
+  .day-body { padding: 16px 14px; flex: 1; }
+  .day-body .day-label {
+    font-size: 11px; font-weight: 700; color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .day-body h3 { font-size: 17px; font-weight: 800; margin: 3px 0 6px; }
+  .day-body p { font-size: 13px; color: var(--sub); line-height: 1.6; }
+  .day-arrow {
+    display: flex; align-items: center; padding: 0 16px;
+    color: var(--muted); font-size: 22px; font-weight: 300;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Members */
   .members {
-    background: var(--card); border-radius: 12px; padding: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    background: var(--card); border-radius: var(--radius); padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
   }
   .member-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 0; border-bottom: 1px solid var(--border);
-    font-size: 14px;
+    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px;
   }
   .member-row:last-child { border-bottom: none; }
   .member-name { font-weight: 600; }
   .member-tag {
-    font-size: 11px; padding: 2px 8px; border-radius: 99px;
-    font-weight: 600;
+    font-size: 11px; padding: 3px 10px; border-radius: 99px; font-weight: 700;
   }
-  .tag-kaohsiung { background: #dbeafe; color: #2563eb; }
-  .tag-taoyuan { background: #dcfce7; color: #16a34a; }
+  .tag-kaohsiung { background: #dbeafe; color: #1d4ed8; }
+  .tag-taoyuan { background: #d1fae5; color: #047857; }
+
+  /* Contacts */
   .contacts {
-    background: var(--card); border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
     overflow: hidden;
   }
   .contact-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 16px; border-bottom: 1px solid var(--border);
-    font-size: 14px;
+    padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 15px;
   }
   .contact-row:last-child { border-bottom: none; }
   .contact-row .name { font-weight: 600; }
   .contact-row a {
-    color: var(--blue); text-decoration: none; font-weight: 600;
+    color: var(--ocean); text-decoration: none; font-weight: 700;
+    padding: 6px 14px; background: #ecfeff; border-radius: 8px;
+    font-size: 14px;
   }
-  .cost-summary {
-    background: var(--card); border-radius: 12px; padding: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--border);
+  .contact-row:nth-child(-n+2) a {
+    background: #fef2f2; color: #dc2626;
   }
-  .cost-row {
-    display: flex; justify-content: space-between;
-    padding: 8px 0; border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .cost-row:last-child { border: none; font-weight: 700; font-size: 15px; color: var(--blue); }
-  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
 
-  .footer { text-align: center; padding: 32px 16px; font-size: 12px; color: var(--sub); }
-  .now-btn{position:fixed;bottom:60px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
-  .now-btn:active{transform:scale(.95)}
-  label:has(input:checked){text-decoration:line-through;opacity:.5}
+  /* Checklist */
+  .checklist-card {
+    background: var(--card); border-radius: var(--radius); padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
+  }
+  .checklist-group { font-size: 13px; font-weight: 800; margin-bottom: 10px; }
+  .checklist-group:not(:first-child) { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; padding: 8px 0; cursor: pointer; line-height: 1.5;
+  }
+  .check-item input[type="checkbox"] {
+    width: 22px; height: 22px; margin-top: 2px; flex-shrink: 0;
+    accent-color: var(--teal); border-radius: 4px;
+  }
+  label:has(input:checked) { text-decoration: line-through; opacity: .45; }
+
+  /* Reservation */
+  .reserve-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+  }
+  .reserve-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 3px; }
+  .reserve-card p { font-size: 14px; color: var(--sub); }
+  .reserve-card .call-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--teal); color: #fff; text-decoration: none;
+    font-size: 15px; font-weight: 700; padding: 12px 24px;
+    border-radius: 12px; margin-top: 10px; min-height: 48px;
+  }
+  .reserve-card .call-btn.green { background: var(--palm); }
+  .reserve-card .call-btn:active { opacity: 0.85; }
+  .reserve-pending {
+    background: #fffbeb; border-color: #fde68a;
+  }
+
+  /* Nav */
+  .nav-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--teal); color: #fff; text-decoration: none;
+    font-size: 14px; font-weight: 700; padding: 12px 22px;
+    border-radius: 12px; margin-top: 8px; min-height: 48px;
+  }
+  .nav-btn:active { opacity: .8; }
+
+  /* Japanese phrases */
+  .jp-card {
+    background: #ecfeff; border: 1px solid #a5f3fc; border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .jp-card p { font-size: 15px; color: var(--text); line-height: 2.2; }
+
+  /* FAB */
+  .now-btn {
+    position: fixed; bottom: 24px; right: 20px; z-index: 200;
+    background: var(--coral); color: #fff; border: none;
+    border-radius: 50px; padding: 14px 22px;
+    font-size: 15px; font-weight: 800; font-family: inherit;
+    box-shadow: 0 6px 20px rgba(249,112,102,0.4);
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    transition: transform 0.15s;
+  }
+  .now-btn:active { transform: scale(0.93); }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 40px 20px 32px;
+    font-size: 12px; color: var(--muted);
+  }
+
+  /* Accordion */
+  details summary {
+    cursor: pointer; list-style: none; position: relative;
+    padding-right: 28px; min-height: 44px;
+    display: flex; align-items: center;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after {
+    content: '+'; position: absolute; right: 0;
+    font-size: 22px; font-weight: 600; color: var(--muted);
+    transition: transform 0.2s;
+  }
+  details[open] summary::after { content: '−'; }
+
+  /* Alert */
+  .alert-deadline {
+    background: #fef2f2; border: 1px solid #fecaca;
+    border-radius: 12px; padding: 14px 18px; margin-top: 12px;
+  }
+  .alert-deadline p { font-size: 14px; color: #dc2626; font-weight: 600; }
+  .alert-deadline span { font-weight: 400; }
+
+  /* Dark Mode */
   @media(prefers-color-scheme:dark){
-    :root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#f1f5f9;--sub:#94a3b8}
+    :root{--bg:#0c0a09;--card:#1c1917;--border:#292524;--text:#fafaf9;--sub:#a8a29e;--muted:#78716c}
     body{background:var(--bg);color:var(--text)}
-    .hero,.header{background:linear-gradient(135deg,#1e3a5f,#312e81)!important}
-    .info-card,.card,.members,.contacts,.cost-summary,.summary,.checklist{background:var(--card);border-color:var(--border)}
-    .sim-box{background:#0d2818;border-color:#1a4d2e}
-    .sim-box h4{color:#4ade80}
-    .warn-box{background:#2d1f00;border-color:#5c3d00}
-    .warn-box h4{color:#fbbf24}
-    .warn-box p{color:#fcd34d}
-    .option-box{border-color:var(--border)}
+    .hero{background:linear-gradient(155deg,#134e4a 0%,#164e63 40%,#1e3a5f 100%)!important}
+    .hero::before{background:var(--bg)}
+    .info-card,.members,.contacts,.checklist-card,.reserve-card{background:var(--card);border-color:var(--border)}
     .day-card{background:var(--card);border-color:var(--border)}
-    .day-arrow{color:var(--sub)}
+    .day-arrow{color:var(--muted)}
     .member-row{border-color:var(--border)}
     .contact-row{border-color:var(--border)}
-    .cost-row{border-color:var(--border)}
-    .bottom-nav{background:var(--card);border-color:var(--border)}
-    .now-btn{box-shadow:0 4px 12px rgba(0,0,0,.6)}
-    .progress-bar-visual{opacity:.85}
-    img{opacity:.85;border-radius:8px}
-    a{color:#60a5fa}
-    .nav-btn{opacity:.95}
-    details summary{color:var(--text)}
-    input[type="checkbox"]{accent-color:#22c55e}
-    .tag.min{background:#334155;color:#94a3b8}
-    .tag.important{background:#78350f;color:#fbbf24}
-    .tag.wheelchair{background:#3b0764;color:#c084fc}
-    div[style*="background:#eff6ff"]{background:#1e293b!important;border-color:#334155!important}
-    div[style*="background:#eff6ff"] p{color:#93c5fd!important}
-    div[style*="background:#f8fafc"]{background:#1e293b!important;border-color:#334155!important}
-    div[style*="background:#fffbeb"]{background:#2d1f00!important;border-color:#5c3d00!important}
-    div[style*="background:#f0fdf4"]{background:#0d2818!important;border-color:#1a4d2e!important}
-    div[style*="background:#fef2f2"]{background:#3b0000!important;border-color:#7f1d1d!important}
-    div[style*="background:#fef3c7"]{background:#2d1f00!important;border-color:#5c3d00!important}
-    .footer{color:#64748b}
-    /* Fix inline color contrast */
-    [style*="color:#1d4ed8"]{color:#93c5fd!important}
-    [style*="color:#16a34a"]{color:#4ade80!important}
-    [style*="color:#92400e"]{color:#fcd34d!important}
-    [style*="color:#d97706"]{color:#fbbf24!important}
-    [style*="color:#dc2626"]{color:#f87171!important}
-    [style*="color:#78350f"]{color:#fcd34d!important}
-    [style*="color:#991b1b"]{color:#fca5a5!important}
-    /* Fix inline background contrast */
-    [style*="background:#fff"]{background:var(--card)!important}
-    [style*="background:white"]{background:var(--card)!important}
-    [style*="background:#f8fafc"]{background:#1e293b!important}
-    /* Fix blue phrase cards text */
-    div[style*="background:#eff6ff"] [style*="color:#1d4ed8"]{color:#93c5fd!important}
-    /* Fix green sim-box inline text */
-    div[style*="background:#f0fdf4"] [style*="color:#16a34a"]{color:#4ade80!important}
-    /* Fix warn-box inline text */
-    div[style*="background:#fffbeb"] [style*="color:#92400e"]{color:#fcd34d!important}
-    div[style*="background:#fffbeb"] [style*="color:#d97706"]{color:#fbbf24!important}
-    /* Fix red alert box text */
-    div[style*="background:#fef2f2"] [style*="color:#dc2626"]{color:#f87171!important}
-    div[style*="background:#fef2f2"] p{color:#fca5a5!important}
-    /* Fix restaurant option boxes with white bg */
-    .option-box [style*="background:#fff"]{background:#1e293b!important;border-color:#334155!important}
-    /* Fix details/summary text */
-    details div[style*="background:#f8fafc"]{background:#1e293b!important}
-    /* Fix checklist section backgrounds */
-    div[style*="background:var(--card)"]{background:var(--card)!important;border-color:var(--border)!important}
-    /* Ensure all p tags inside cards are readable */
-    .card p,.card li{color:var(--sub)}
-    .card h3{color:var(--text)}
-    /* Fix strong tags that might be too dark */
+    .contact-row a{background:#1c2432;color:#67e8f9}
+    .contact-row:nth-child(-n+2) a{background:#2d1215;color:#fca5a5}
+    .jp-card{background:#1c2432;border-color:#1e3a5f}
+    .jp-card p{color:var(--text)}
+    .reserve-pending{background:#2d1f00;border-color:#5c3d00}
+    .now-btn{box-shadow:0 6px 20px rgba(0,0,0,0.5)}
+    .checklist-group:not(:first-child){border-color:var(--border)}
+    .alert-deadline{background:#2d1215;border-color:#5c1d24}
+    .alert-deadline p{color:#fca5a5}
+    a{color:#67e8f9}
     strong{color:var(--text)}
-    /* Fix alert-box for dark mode */
-    .alert-box{background:#3b0000!important;border-color:#7f1d1d!important}
-    .alert-box h3{color:#f87171!important}
-    .alert-box p{color:#fca5a5!important}
-    /* Fix ticket-box for dark mode */
-    .ticket-box{background:#1e293b!important;border-color:#334155!important}
-    .ticket-box h4{color:#93c5fd}
-    .ticket-box p{color:var(--sub)}
-    /* Fix tag colors in dark mode */
-    .tag.free{background:#0d2818;color:#4ade80}
-    .tag.urgent{background:#3b0000;color:#f87171}
+    details summary{color:var(--text)}
+    input[type="checkbox"]{accent-color:#2dd4bf}
     .tag-kaohsiung{background:#1e3a5f;color:#93c5fd}
-    .tag-taoyuan{background:#0d2818;color:#4ade80}
-    /* Fix cost-table in dark mode */
-    .cost-table td{border-color:var(--border);color:var(--sub)}
-    .cost-table tr:last-child td{color:#60a5fa}
+    .tag-taoyuan{background:#0d2818;color:#6ee7b7}
+    [style*="background:#fffbeb"]{background:#2d1f00!important;border-color:#5c3d00!important}
+    [style*="background:#f8fafc"]{background:#1c1917!important}
+    [style*="background:var(--card)"]{background:var(--card)!important;border-color:var(--border)!important}
+    [style*="color:#1d4ed8"]{color:#93c5fd!important}
+    [style*="color:#dc2626"]{color:#fca5a5!important}
+    [style*="color:#d97706"]{color:#fbbf24!important}
+    .footer{color:#57534e}
   }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>葉世家族旅遊</h1>
-  <p>2026 沖繩 ・ 03/31 - 04/04 ・ 5天4夜 ・ 9人</p>
+  <div class="hero-content">
+    <span class="hero-emoji">🏝️</span>
+    <h1>葉世家族旅遊</h1>
+    <p class="subtitle">2026 沖繩 ・ 03/31 — 04/04 ・ 5天4夜</p>
+    <div class="countdown" id="countdown"></div>
+  </div>
 </div>
 
 <div class="info-grid">
   <div class="info-card">
+    <span class="icon">👨‍👩‍👧‍👦</span>
     <div class="label">人數</div>
     <div class="value">9 人</div>
   </div>
   <div class="info-card">
+    <span class="icon">📅</span>
     <div class="label">天數</div>
     <div class="value">5天4夜</div>
   </div>
   <div class="info-card">
+    <span class="icon">🚗</span>
     <div class="label">租車</div>
     <div class="value small">Alphard x2</div>
   </div>
   <div class="info-card">
+    <span class="icon">🏡</span>
     <div class="label">住宿</div>
     <div class="value small">那霸+恩納別墅</div>
   </div>
 </div>
 
 <div class="section">
-  <h2>每日行程</h2>
+  <div class="section-title">每日行程</div>
 
   <a class="day-card" href="day1.html">
     <div class="day-accent" style="background:#ef4444"></div>
@@ -246,7 +346,7 @@
   </a>
 
   <a class="day-card" href="day4.html">
-    <div class="day-accent" style="background:#0ea5e9"></div>
+    <div class="day-accent" style="background:#0891b2"></div>
     <div class="day-body">
       <div class="day-label">04/03 (五)</div>
       <h3>Day 4 — 水族館＋萬座毛</h3>
@@ -268,8 +368,8 @@
 
 <div class="section">
   <details>
-    <summary style="font-size:17px;font-weight:700;cursor:pointer;padding:4px 0;">成員（9人）</summary>
-    <div class="members" style="margin-top:10px;">
+    <summary style="font-size:17px;font-weight:800;">成員（9人）</summary>
+    <div class="members" style="margin-top:12px;">
       <div class="member-row"><span class="member-name">Aly</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
       <div class="member-row"><span class="member-name">Annie</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
       <div class="member-row"><span class="member-name">雅凌</span><span class="member-tag tag-kaohsiung">高雄 CI132</span></div>
@@ -284,93 +384,47 @@
 </div>
 
 <div class="section">
-  <h2>出國前 Checklist</h2>
-  <div style="background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border);">
+  <div class="section-title">出國前 Checklist</div>
+  <div class="checklist-card">
 
-    <h4 style="font-size:14px;color:var(--red);margin-bottom:8px;">🔴 緊急（本週）</h4>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 餐廳預約全部打完（5 間）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 承家 — 駕照日文譯本申請
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 繐菁 — 駕照日文譯本申請
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 振宏 — 確認舊譯本效期
-    </label>
+    <div class="checklist-group" style="color:#dc2626;">🔴 緊急（本週）</div>
+    <label class="check-item"><input type="checkbox"> 餐廳預約全部打完（5 間）</label>
+    <label class="check-item"><input type="checkbox"> 承家 — 駕照日文譯本申請</label>
+    <label class="check-item"><input type="checkbox"> 繐菁 — 駕照日文譯本申請</label>
+    <label class="check-item"><input type="checkbox"> 振宏 — 確認舊譯本效期</label>
 
-    <h4 style="font-size:14px;color:var(--orange);margin-top:14px;margin-bottom:8px;">🟡 3/21 前</h4>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> Visit Japan Web ×9 人（QR Code 截圖）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> Laguna Fuchaku 住客資料（9人護照）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 每人自行準備網路（eSIM / SIM 卡 / 漫遊）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 買水族館門票 ×5（Trip.com）
-    </label>
+    <div class="checklist-group" style="color:#d97706;">🟡 3/21 前</div>
+    <label class="check-item"><input type="checkbox"> Visit Japan Web ×9 人（QR Code 截圖）</label>
+    <label class="check-item"><input type="checkbox"> Laguna Fuchaku 住客資料（9人護照）</label>
+    <label class="check-item"><input type="checkbox"> 每人自行準備網路（eSIM / SIM 卡 / 漫遊）</label>
+    <label class="check-item"><input type="checkbox"> 買水族館門票 ×5（Trip.com）</label>
 
-    <h4 style="font-size:14px;color:var(--blue);margin-top:14px;margin-bottom:8px;">🔵 出發前一週</h4>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 護照效期確認（9人，需6個月以上）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 兌換日圓（每人 ¥30,000~50,000）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 旅遊保險 ×9 人
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 下載離線地圖（Google Maps 沖繩）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 優惠券截圖（唐吉訶德、松本清、BicCamera）
-    </label>
+    <div class="checklist-group" style="color:#0891b2;">🔵 出發前一週</div>
+    <label class="check-item"><input type="checkbox"> 護照效期確認（9人，需6個月以上）</label>
+    <label class="check-item"><input type="checkbox"> 兌換日圓（每人 ¥30,000~50,000）</label>
+    <label class="check-item"><input type="checkbox"> 旅遊保險 ×9 人</label>
+    <label class="check-item"><input type="checkbox"> 下載離線地圖（Google Maps 沖繩）</label>
+    <label class="check-item"><input type="checkbox"> 優惠券截圖（唐吉訶德、松本清、BicCamera）</label>
 
-    <h4 style="font-size:14px;color:var(--purple);margin-top:14px;margin-bottom:8px;">🟣 出門當天</h4>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 護照
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 駕照 + 日文譯本（4位司機）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 身心障礙手冊 ×2（水族館免費入場）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 手機網路 OK（eSIM / SIM / 漫遊）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 日圓現金
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> Visit Japan Web QR Code（手機截圖）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 水族館 Trip.com QR Code（手機截圖）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 折疊傘 / 輕量雨衣
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 防曬（墨鏡、帽子、防曬乳）
-    </label>
-    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer;">
-      <input type="checkbox" style="width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green);"> 充電器 / 行動電源
-    </label>
+    <div class="checklist-group" style="color:#7c3aed;">🟣 出門當天</div>
+    <label class="check-item"><input type="checkbox"> 護照</label>
+    <label class="check-item"><input type="checkbox"> 駕照 + 日文譯本（4位司機）</label>
+    <label class="check-item"><input type="checkbox"> 身心障礙手冊 ×2（水族館免費入場）</label>
+    <label class="check-item"><input type="checkbox"> 手機網路 OK（eSIM / SIM / 漫遊）</label>
+    <label class="check-item"><input type="checkbox"> 日圓現金</label>
+    <label class="check-item"><input type="checkbox"> Visit Japan Web QR Code（手機截圖）</label>
+    <label class="check-item"><input type="checkbox"> 水族館 Trip.com QR Code（手機截圖）</label>
+    <label class="check-item"><input type="checkbox"> 折疊傘 / 輕量雨衣</label>
+    <label class="check-item"><input type="checkbox"> 防曬（墨鏡、帽子、防曬乳）</label>
+    <label class="check-item"><input type="checkbox"> 充電器 / 行動電源</label>
   </div>
 </div>
 
 <div class="section">
-  <h2>重要聯絡</h2>
+  <div class="section-title">重要聯絡</div>
   <div class="contacts">
-    <div class="contact-row"><span class="name">緊急 (警察)</span><a href="tel:110">110</a></div>
-    <div class="contact-row"><span class="name">緊急 (救護)</span><a href="tel:119">119</a></div>
+    <div class="contact-row"><span class="name">緊急（警察）</span><a href="tel:110">110</a></div>
+    <div class="contact-row"><span class="name">緊急（救護）</span><a href="tel:119">119</a></div>
     <div class="contact-row"><span class="name">台灣代表處</span><a href="tel:+81988627008">+81-98-862-7008</a></div>
     <div class="contact-row"><span class="name">Alphabed Inn</span><a href="tel:0989637007">098-963-7007</a></div>
     <div class="contact-row"><span class="name">Laguna Fuchaku</span><a href="tel:+81508837560">+81-50-8883-7560</a></div>
@@ -382,67 +436,61 @@
 
 <div class="section">
   <details>
-    <summary style="font-size:17px;font-weight:700;cursor:pointer;padding:4px 0;">常用日文對照（給店員看）</summary>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px;">
-      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
-        <p style="font-size:14px;color:var(--text);line-height:2.2;">
-          <strong>基本：</strong><br>
-          謝謝 → ありがとうございます<br>
-          不好意思 → すみません<br>
-          請問 → すみません、ちょっとよろしいですか<br>
-          多少錢？ → いくらですか？<br>
-          可以刷卡嗎？ → カードは使えますか？<br>
-          <br>
-          <strong>餐廳：</strong><br>
-          我們有9位 → 9名です<br>
-          有2台輪椅 → 車椅子が2台あります<br>
-          要桌席不要榻榻米 → テーブル席をお願いします<br>
-          有預約，姓陳 → 予約した陳（チェン）です<br>
-          我要點餐 → 注文お願いします<br>
-          結帳 → お会計お願いします<br>
-          可以分開付嗎？ → 別々に払えますか？<br>
-          <br>
-          <strong>交通：</strong><br>
-          請到這個地址 → この住所までお願いします<br>
-          可以放輪椅嗎？ → 車椅子を載せられますか？<br>
-          <br>
-          <strong>購物：</strong><br>
-          可以免稅嗎？ → 免税できますか？<br>
-          有其他顏色嗎？ → 他の色はありますか？<br>
-          <br>
-          <strong>緊急：</strong><br>
-          請幫幫我 → 助けてください<br>
-          請叫救護車 → 救急車を呼んでください<br>
-          我不會說日文 → 日本語がわかりません
-        </p>
-      </div>
+    <summary style="font-size:17px;font-weight:800;">常用日文對照（給店員看）</summary>
+    <div class="jp-card" style="margin-top:12px;">
+      <p>
+        <strong>基本：</strong><br>
+        謝謝 → ありがとうございます<br>
+        不好意思 → すみません<br>
+        請問 → すみません、ちょっとよろしいですか<br>
+        多少錢？ → いくらですか？<br>
+        可以刷卡嗎？ → カードは使えますか？<br>
+        <br>
+        <strong>餐廳：</strong><br>
+        我們有9位 → 9名です<br>
+        有2台輪椅 → 車椅子が2台あります<br>
+        要桌席不要榻榻米 → テーブル席をお願いします<br>
+        有預約，姓陳 → 予約した陳（チェン）です<br>
+        我要點餐 → 注文お願いします<br>
+        結帳 → お会計お願いします<br>
+        可以分開付嗎？ → 別々に払えますか？<br>
+        <br>
+        <strong>交通：</strong><br>
+        請到這個地址 → この住所までお願いします<br>
+        可以放輪椅嗎？ → 車椅子を載せられますか？<br>
+        <br>
+        <strong>購物：</strong><br>
+        可以免稅嗎？ → 免税できますか？<br>
+        有其他顏色嗎？ → 他の色はありますか？<br>
+        <br>
+        <strong>緊急：</strong><br>
+        請幫幫我 → 助けてください<br>
+        請叫救護車 → 救急車を呼んでください<br>
+        我不會說日文 → 日本語がわかりません
+      </p>
     </div>
   </details>
 </div>
 
 <div class="section">
-  <h2>餐廳預約專區</h2>
-  <p style="font-size:13px;color:var(--sub);margin-bottom:12px;">
+  <div class="section-title">餐廳預約專區</div>
+  <p style="font-size:14px;color:var(--sub);margin-bottom:14px;">
     每間都有一鍵撥號 + 日文電話稿，直接唸就好
   </p>
 
-  <!-- D1 晚餐 — 待定 -->
-  <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 16px;margin-bottom:12px;">
-    <h3 style="font-size:15px;margin-bottom:4px;">D1 (3/31) 晚餐 — 待定</h3>
-    <p style="font-size:13px;color:var(--sub);">先決定要去哪間，再打電話訂</p>
-    <p style="font-size:13px;color:var(--sub);margin-top:6px;">
-      → <a href="day1.html" style="color:var(--blue);font-weight:600;">查看 6 間選項</a>
-    </p>
+  <div class="reserve-card reserve-pending">
+    <h3>D1 (3/31) 晚餐 — 待定</h3>
+    <p>先決定要去哪間，再打電話訂</p>
+    <p style="margin-top:6px;">→ <a href="day1.html" style="color:var(--ocean);font-weight:700;">查看 6 間選項</a></p>
   </div>
 
-  <!-- 首里天楼 -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
-    <h3 style="font-size:15px;margin-bottom:2px;">D2 (4/1) 晚 18:30 — 首里天楼</h3>
-    <p style="font-size:13px;color:var(--sub);">琉球宮廷料理+舞踊｜9人・輪椅x2・桌席</p>
-    <a href="tel:098-852-3305" style="display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:10px 20px;border-radius:10px;margin-top:8px;">📞 098-852-3305（團體專線）</a>
+  <div class="reserve-card">
+    <h3>D2 (4/1) 晚 18:30 — 首里天楼</h3>
+    <p>琉球宮廷料理+舞踊｜9人・輪椅x2・桌席</p>
+    <a href="tel:098-852-3305" class="call-btn">📞 098-852-3305（團體專線）</a>
     <details style="margin-top:10px;">
-      <summary style="font-size:13px;font-weight:600;cursor:pointer;">日文電話稿</summary>
-      <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-top:6px;font-size:13px;line-height:1.8;color:var(--sub);">
+      <summary style="font-size:14px;font-weight:600;">日文電話稿</summary>
+      <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
         すみません、予約をお願いします。<br>
         <strong>4月1日（水曜日）、18時30分、9名</strong>です。<br>
         車椅子が2台ありますので、テーブル席をお願いできますか。<br>
@@ -452,14 +500,13 @@
     </details>
   </div>
 
-  <!-- なべしま -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
-    <h3 style="font-size:15px;margin-bottom:2px;">D3 (4/2) 午 12:30 — 焼肉なべしま</h3>
-    <p style="font-size:13px;color:var(--sub);">來客夢 AEON 5F｜9人・個室（包廂）</p>
-    <a href="https://yoyaku.toreta.in/aeonmallokinawarycamten" target="_blank" style="display:inline-block;background:#10b981;color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:10px 20px;border-radius:10px;margin-top:8px;">🌐 線上預約（不用打電話）</a>
+  <div class="reserve-card">
+    <h3>D3 (4/2) 午 12:30 — 焼肉なべしま</h3>
+    <p>來客夢 AEON 5F｜9人・個室（包廂）</p>
+    <a href="https://yoyaku.toreta.in/aeonmallokinawarycamten" target="_blank" class="call-btn green">🌐 線上預約（不用打電話）</a>
     <details style="margin-top:10px;">
-      <summary style="font-size:13px;font-weight:600;cursor:pointer;">線上預約填什麼</summary>
-      <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-top:6px;font-size:13px;line-height:1.8;color:var(--sub);">
+      <summary style="font-size:14px;font-weight:600;">線上預約填什麼</summary>
+      <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
         日付：<strong>4月2日</strong><br>
         時間：<strong>12:30</strong><br>
         人数：<strong>9名</strong><br>
@@ -468,14 +515,13 @@
     </details>
   </div>
 
-  <!-- NAKAMA -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
-    <h3 style="font-size:15px;margin-bottom:2px;">D3 (4/2) 晚 18:30 — 琉球焼肉 NAKAMA</h3>
-    <p style="font-size:13px;color:var(--sub);">古民家燒肉｜9人・輪椅x2・桌席</p>
-    <a href="tel:098-967-7029" style="display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:10px 20px;border-radius:10px;margin-top:8px;">📞 098-967-7029</a>
+  <div class="reserve-card">
+    <h3>D3 (4/2) 晚 18:30 — 琉球焼肉 NAKAMA</h3>
+    <p>古民家燒肉｜9人・輪椅x2・桌席</p>
+    <a href="tel:098-967-7029" class="call-btn">📞 098-967-7029</a>
     <details style="margin-top:10px;">
-      <summary style="font-size:13px;font-weight:600;cursor:pointer;">日文電話稿</summary>
-      <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-top:6px;font-size:13px;line-height:1.8;color:var(--sub);">
+      <summary style="font-size:14px;font-weight:600;">日文電話稿</summary>
+      <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
         すみません、予約をお願いします。<br>
         <strong>4月2日（木曜日）、18時30分、9名</strong>です。<br>
         車椅子が2台ありますので、テーブル席をお願いできますか。<br>
@@ -485,14 +531,13 @@
     </details>
   </div>
 
-  <!-- しまぶた屋 -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
-    <h3 style="font-size:15px;margin-bottom:2px;">D4 (4/3) 晚 19:00 — しまぶた屋 恩納本店</h3>
-    <p style="font-size:13px;color:var(--sub);">阿古豬蒸籠料理｜9人・輪椅x2・桌席</p>
-    <a href="tel:098-966-1450" style="display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:10px 20px;border-radius:10px;margin-top:8px;">📞 098-966-1450</a>
+  <div class="reserve-card">
+    <h3>D4 (4/3) 晚 19:00 — しまぶた屋 恩納本店</h3>
+    <p>阿古豬蒸籠料理｜9人・輪椅x2・桌席</p>
+    <a href="tel:098-966-1450" class="call-btn">📞 098-966-1450</a>
     <details style="margin-top:10px;">
-      <summary style="font-size:13px;font-weight:600;cursor:pointer;">日文電話稿</summary>
-      <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-top:6px;font-size:13px;line-height:1.8;color:var(--sub);">
+      <summary style="font-size:14px;font-weight:600;">日文電話稿</summary>
+      <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;font-size:14px;line-height:1.9;color:var(--sub);">
         すみません、予約をお願いします。<br>
         <strong>4月3日（金曜日）、19時、9名</strong>です。<br>
         車椅子が2台ありますので、テーブル席をお願いできますか。<br>
@@ -502,21 +547,36 @@
     </details>
   </div>
 
-  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px 14px;margin-top:8px;">
-    <p style="font-size:13px;color:#dc2626;font-weight:600;">
+  <div class="alert-deadline">
+    <p>
       ⚠️ 預約 deadline：3/17（二）前全部打完<br>
-      <span style="font-weight:400;">日本餐廳通常 11:00 後才接電話（營業前太早不會接）</span>
+      <span>日本餐廳通常 11:00 後才接電話（營業前太早不會接）</span>
     </p>
   </div>
 </div>
 
 <div class="footer">
-  葉世家族旅遊 ・ 2026 沖繩
+  葉世家族旅遊 ・ 2026 沖繩 🏝️
 </div>
 
 <script>
+// Countdown
+(function(){
+  const trip = new Date('2026-03-31T00:00:00+09:00');
+  const now = new Date();
+  const diff = Math.ceil((trip - now) / (1000*60*60*24));
+  const el = document.getElementById('countdown');
+  if(diff > 0) el.textContent = '還有 ' + diff + ' 天出發';
+  else if(diff >= -4) el.textContent = '旅途中！享受沖繩吧 🌊';
+  else el.textContent = '旅途回憶 ✨';
+})();
+
 // Checklist localStorage
-document.querySelectorAll('.section input[type="checkbox"]').forEach((cb,i)=>{const k='index_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
+document.querySelectorAll('.check-item input').forEach((cb,i)=>{
+  const k='index_check_'+i;
+  cb.checked=localStorage.getItem(k)==='1';
+  cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')});
+});
 </script>
 <script>
 (function(){
@@ -539,8 +599,8 @@ document.querySelectorAll('.section input[type="checkbox"]').forEach((cb,i)=>{co
       window.location.href=match.page;
     }else{
       btn.innerHTML='📍 不在旅行期間';
-      btn.style.background='#64748b';
-      setTimeout(()=>{btn.innerHTML='📍 今天';btn.style.background='#ef4444';},2000);
+      btn.style.background='#78716c';
+      setTimeout(()=>{btn.innerHTML='📍 今天';btn.style.background='';},2000);
     }
   };
   document.body.appendChild(btn);
