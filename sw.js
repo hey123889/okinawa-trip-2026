@@ -1,4 +1,4 @@
-const CACHE_NAME = 'okinawa-trip-v1';
+const CACHE_NAME = 'okinawa-trip-v3';
 const URLS_TO_CACHE = [
   './',
   './index.html',
@@ -25,16 +25,17 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Network-first: try network, fallback to cache
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(cached => cached || fetch(event.request).then(response => {
+    fetch(event.request)
+      .then(response => {
         if (response.ok && event.request.url.startsWith(self.location.origin)) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         }
         return response;
-      }))
-      .catch(() => caches.match('./index.html'))
+      })
+      .catch(() => caches.match(event.request).then(cached => cached || caches.match('./index.html')))
   );
 });
