@@ -30,7 +30,7 @@
   .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
   .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
   .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.urgent{background:#fee2e2;color:#dc2626}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
-  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 22px;border-radius:12px;min-height:48px;margin-top:8px}.nav-btn:active{opacity:.8}
 
   .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
   .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
@@ -55,7 +55,7 @@
 .progress-bar-visual{display:flex;height:6px;border-radius:3px;overflow:hidden;margin:12px 16px 0;gap:2px}
 .progress-bar-visual span{flex:1;border-radius:3px;transition:background .3s}
 .progress-labels{display:flex;justify-content:space-between;padding:4px 16px 0;font-size:11px;color:var(--sub)}
-  label:has(input:checked){text-decoration:line-through;opacity:.5}
+  label:has(input:checked){text-decoration:line-through;opacity:.45}
   .copy-btn{display:inline-flex;align-items:center;gap:4px;background:var(--teal,#0d9488);color:#fff;border:none;font-size:14px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;margin-top:6px;min-height:44px}
   .copy-btn:active{opacity:.7}
   .copy-btn.copied{background:#059669;color:#fff}
@@ -525,7 +525,7 @@
 </nav>
 
 <script>
-function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);});}
+function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);}).catch(function(){btn.textContent='複製失敗';setTimeout(function(){btn.textContent='複製';},1500);});}
 document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=function(){this.style.display='none'}});
 // Progress bar
 (function(){
@@ -584,7 +584,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day5_che
     if(today!==DAY_DATE){
       const days=[{date:'2026-03-31',page:'day1.html'},{date:'2026-04-01',page:'day2.html'},{date:'2026-04-02',page:'day3.html'},{date:'2026-04-03',page:'day4.html'},{date:'2026-04-04',page:'day5.html'}];
       const m=days.find(d=>d.date===today);
-      if(m){window.location.href=m.page;}else{btn.innerHTML='📍 不在旅行期間';btn.style.background='#64748b';setTimeout(()=>{btn.innerHTML='📍 現在';btn.style.background='#ef4444';},2000);}
+      if(m){window.location.href=m.page;}else{btn.innerHTML='📍 不在旅行期間';btn.style.background='#64748b';setTimeout(()=>{btn.innerHTML='📍 現在';btn.style.background='';},2000);}
       return;
     }
     const info=findCurrentBlock();

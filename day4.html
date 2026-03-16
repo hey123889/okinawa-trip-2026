@@ -115,9 +115,7 @@
     border-radius: 99px;
     margin-left: 4px;
   }
-  .tag.drive { background: #f1f5f9; color: var(--gray); }
   .tag.min { background: #f1f5f9; color: var(--gray); }
-  .tag.free { background: #dcfce7; color: #16a34a; }
   .tag.important { background: #fef3c7; color: #d97706; }
   .tag.wheelchair { background: #ede9fe; color: #7c3aed; }
   .checklist {
@@ -156,17 +154,13 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    padding: 12px 20px;
-    border-radius: 8px;
+    padding: 12px 22px;
+    border-radius: 12px;
+    min-height: 48px;
     margin-top: 8px;
   }
   .nav-btn:active { opacity: 0.8; }
 
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 8px 0;
-  }
   .cost-table {
     width: 100%;
     border-collapse: collapse;
@@ -226,7 +220,7 @@
   .highlight-card{box-shadow:0 0 0 3px #ef4444 !important;transition:box-shadow .3s}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;display:flex;background:#fff;border-top:1px solid var(--border);box-shadow:0 -2px 8px rgba(0,0,0,.08);padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px}
 .bottom-nav a{flex:1;display:flex;align-items:center;justify-content:center;min-height:40px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;color:#fff}
-  label:has(input:checked){text-decoration:line-through;opacity:.5}
+  label:has(input:checked){text-decoration:line-through;opacity:.45}
   .copy-btn{display:inline-flex;align-items:center;gap:4px;background:var(--teal,#0d9488);color:#fff;border:none;font-size:14px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;margin-top:6px;min-height:44px}
   .copy-btn:active{opacity:.7}
   .copy-btn.copied{background:#059669;color:#fff}
@@ -234,7 +228,7 @@
 </head>
 <body>
 <div class="header">
-  <a class="back" href="index.html" style="color:#fff;text-decoration:none;font-size:15px;opacity:1;padding:8px 14px;background:rgba(255,255,255,0.15);border-radius:8px;display:inline-block">&larr; 總覽</a>
+  <a class="back" href="index.html">&larr; 總覽</a>
   <h1>Day 4 — 04/03 (五)</h1>
   <p>美麗海水族館 + 萬座毛夕陽 + 阿古豬晚餐</p>
 </div>
@@ -701,7 +695,7 @@
 </nav>
 
 <script>
-function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);});}
+function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);}).catch(function(){btn.textContent='複製失敗';setTimeout(function(){btn.textContent='複製';},1500);});}
 document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=function(){this.style.display='none'}});
 // Progress bar
 (function(){
@@ -760,7 +754,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day4_che
     if(today!==DAY_DATE){
       const days=[{date:'2026-03-31',page:'day1.html'},{date:'2026-04-01',page:'day2.html'},{date:'2026-04-02',page:'day3.html'},{date:'2026-04-03',page:'day4.html'},{date:'2026-04-04',page:'day5.html'}];
       const m=days.find(d=>d.date===today);
-      if(m){window.location.href=m.page;}else{btn.innerHTML='📍 不在旅行期間';btn.style.background='#64748b';setTimeout(()=>{btn.innerHTML='📍 現在';btn.style.background='#ef4444';},2000);}
+      if(m){window.location.href=m.page;}else{btn.innerHTML='📍 不在旅行期間';btn.style.background='#64748b';setTimeout(()=>{btn.innerHTML='📍 現在';btn.style.background='';},2000);}
       return;
     }
     const info=findCurrentBlock();

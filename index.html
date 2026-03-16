@@ -536,7 +536,7 @@
 </div>
 
 <script>
-function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);});}
+function copyText(text,btn){navigator.clipboard.writeText(text).then(function(){btn.textContent='已複製 ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='複製';btn.classList.remove('copied');},1500);}).catch(function(){btn.textContent='複製失敗';setTimeout(function(){btn.textContent='複製';},1500);});}
 // Countdown
 (function(){
   const trip = new Date('2026-03-31T00:00:00+09:00');
