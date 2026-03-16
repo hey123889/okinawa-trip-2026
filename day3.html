@@ -2,42 +2,50 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="preconnect" href="https://www.okinawastory.jp">
+<link rel="preconnect" href="https://churaumi.okinawa">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0ea5e9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Day 3 — 北上恩納</title>
 <style>
-  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b}
+  :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#475569}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:120px}
   .header{background:linear-gradient(135deg,#10b981,#14b8a6);color:#fff;padding:24px 20px 20px;position:sticky;top:0;z-index:100}
-  .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:14px;opacity:.8}
+  .header h1{font-size:20px;font-weight:700}.header p{font-size:13px;opacity:.85;margin-top:4px}.header .back{color:#fff;text-decoration:none;font-size:15px;opacity:1;padding:8px 14px;background:rgba(255,255,255,0.15);border-radius:8px;display:inline-block}
   .timeline{padding:16px;position:relative}.timeline::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:2px;background:var(--border)}
   .block{position:relative;margin-bottom:20px;padding-left:52px}
   .dot{position:absolute;left:22px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid var(--blue);background:#fff;z-index:1}
   .dot.drive{border-color:var(--gray);background:var(--gray)}.dot.food{border-color:var(--orange);background:var(--orange)}.dot.spot{border-color:var(--green);background:var(--green)}.dot.rest{border-color:var(--purple);background:var(--purple)}
-  .time{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px}
+  .time{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
   .card{background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
   .card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-  .card p,.card li{font-size:14px;color:var(--sub);line-height:1.7}
+  .card p,.card li{font-size:15px;color:var(--sub);line-height:1.7}
   .card ul{list-style:none;margin-top:8px}.card ul li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border);margin-right:8px;vertical-align:middle}
   .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px}
   .tag.min{background:#f1f5f9;color:var(--gray)}.tag.important{background:#fef3c7;color:#d97706}.tag.wheelchair{background:#ede9fe;color:#7c3aed}
-  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
+  .nav-btn{display:inline-flex;align-items:center;gap:4px;background:var(--blue);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;margin-top:8px}.nav-btn:active{opacity:.8}
 
   .sim-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-top:10px}
   .sim-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#16a34a}
-  .sim-box p{font-size:13px;color:var(--sub);line-height:1.8}
+  .sim-box p{font-size:14px;color:var(--sub);line-height:1.8}
   .warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-top:10px}
   .warn-box h4{font-size:14px;font-weight:700;margin-bottom:6px;color:#d97706}
-  .warn-box p{font-size:13px;color:#92400e;line-height:1.8}
+  .warn-box p{font-size:14px;color:#92400e;line-height:1.8}
   .checklist{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:16px 16px 0}
   .checklist h3{font-size:15px;font-weight:700;margin-bottom:8px}
   .checklist label{display:flex;align-items:flex-start;gap:10px;font-size:14px;padding:6px 0;cursor:pointer}
   .checklist input[type="checkbox"]{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:var(--green)}
   .summary{margin:20px 16px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
   .summary h3{font-size:16px;font-weight:700;margin-bottom:10px}
-  .now-btn{position:fixed;bottom:20px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
+  .now-btn{position:fixed;bottom:60px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
   .now-btn:active{transform:scale(.95)}
   .highlight-card{box-shadow:0 0 0 3px #ef4444 !important;transition:box-shadow .3s}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;display:flex;background:#fff;border-top:1px solid var(--border);box-shadow:0 -2px 8px rgba(0,0,0,.08);padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px}
+.bottom-nav a{flex:1;display:flex;align-items:center;justify-content:center;min-height:40px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;color:#fff}
 </style>
 </head>
 <body>
@@ -464,7 +472,17 @@
   <a class="nav-btn" href="day4.html" style="background:#0ea5e9;">Day 4 &rarr;</a>
 </div>
 
+<nav class="bottom-nav">
+  <a href="index.html" style="background:#64748b;">總覽</a>
+  <a href="day1.html" style="background:#ef4444;">D1</a>
+  <a href="day2.html" style="background:#f59e0b;">D2</a>
+  <a href="day3.html" style="background:#10b981;">D3</a>
+  <a href="day4.html" style="background:#0ea5e9;">D4</a>
+  <a href="day5.html" style="background:#8b5cf6;">D5</a>
+</nav>
+
 <script>
+document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=function(){this.style.display='none'}});
 // Checklist localStorage
 document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day3_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
 
@@ -525,6 +543,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day3_che
   };
   document.body.appendChild(btn);
 })();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
 
 </body>

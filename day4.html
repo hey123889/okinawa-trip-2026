@@ -2,7 +2,13 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="preconnect" href="https://www.okinawastory.jp">
+<link rel="preconnect" href="https://churaumi.okinawa">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0ea5e9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Day 4 — 水族館＋萬座毛</title>
 <style>
   :root {
@@ -16,7 +22,7 @@
     --card: #ffffff;
     --border: #e2e8f0;
     --text: #1e293b;
-    --sub: #64748b;
+    --sub: #475569;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -24,7 +30,7 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
-    padding-bottom: 80px;
+    padding-bottom: 120px;
   }
   .header {
     background: linear-gradient(135deg, #0ea5e9, #6366f1);
@@ -71,9 +77,9 @@
   .dot.rest { border-color: var(--purple); background: var(--purple); }
   .dot.ticket { border-color: var(--blue); background: var(--blue); }
   .time {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
-    color: var(--sub);
+    color: var(--text);
     margin-bottom: 4px;
   }
   .card {
@@ -92,7 +98,7 @@
     gap: 6px;
   }
   .card p, .card li {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--sub);
     line-height: 1.7;
   }
@@ -157,9 +163,9 @@
     background: var(--blue);
     color: white;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
-    padding: 6px 12px;
+    padding: 12px 20px;
     border-radius: 8px;
     margin-top: 8px;
   }
@@ -247,7 +253,7 @@
 </head>
 <body>
 <div class="header">
-  <a class="back" href="index.html" style="color:#fff;text-decoration:none;font-size:14px;opacity:.8">&larr; 總覽</a>
+  <a class="back" href="index.html" style="color:#fff;text-decoration:none;font-size:15px;opacity:1;padding:8px 14px;background:rgba(255,255,255,0.15);border-radius:8px;display:inline-block">&larr; 總覽</a>
   <h1>Day 4 — 04/03 (五)</h1>
   <p>美麗海水族館 + 萬座毛夕陽 + 阿古豬晚餐</p>
 </div>
@@ -475,7 +481,7 @@
   <!-- 13:40 花開市集 -->
   <div class="block">
     <div class="dot spot"></div>
-    <div class="time">14:10</div>
+    <div class="time">13:40</div>
     <div class="card">
       <h3>花開市集（下午茶）<span class="tag wheelchair">平地</span></h3>
 
@@ -492,10 +498,10 @@
     </div>
   </div>
 
-  <!-- 14:45 回程 -->
+  <!-- 14:15 回程 -->
   <div class="block">
     <div class="dot drive"></div>
-    <div class="time">14:45</div>
+    <div class="time">14:15</div>
     <div class="card">
       <h3>回飯店 <span class="tag min">60 分 / 42.3km</span></h3>
       <p>國道 58 號南下，沿海岸線，車上可小睡</p>
@@ -730,6 +736,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day4_che
   };
   document.body.appendChild(btn);
 })();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
 
 </body>

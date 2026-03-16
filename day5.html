@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0ea5e9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Day 5 — 返程日</title>
 <style>
   :root{--blue:#0ea5e9;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--gray:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b}
@@ -253,7 +257,7 @@
       <div class="warn-box">
         <h4>注意時間！</h4>
         <p>
-          冠宥 14:00 要先離開去機場<br>
+          冠宥 13:30 要先離開去機場<br>
           其他人 15:00 也要走<br>
           最後衝刺採買，別逛太遠
         </p>
@@ -264,9 +268,10 @@
   <!-- 冠宥先走 -->
   <div class="block">
     <div class="dot flight"></div>
-    <div class="time">14:00</div>
+    <div class="time">13:30</div>
     <div class="card">
       <h3>冠宥先去機場 <span class="tag urgent">LCC 要提前 2hr</span></h3>
+      <p style="font-size:13px;color:#dc2626;font-weight:600;margin-bottom:8px;">LCC 需提前 2hr，13:30 離開才有足夠 buffer</p>
       <div class="sim-box">
         <h4>模擬：冠宥分流</h4>
         <p>
@@ -278,7 +283,7 @@
           冠宥叫 Uber 或計程車去機場（~&yen;1,500）<br>
           <br>
           冠宥到機場後：<br>
-          1. 14:15 到機場<br>
+          1. 13:45 到機場<br>
           2. 樂桃櫃台報到（T1 國內/國際共用）<br>
           3. 託運行李<br>
           4. 過安檢出境<br>
@@ -455,7 +460,7 @@
     10:10 開車南下（路上加油）<br>
     11:05 Ashibinaa Outlet<br>
     12:00 午餐 カラカラ<br>
-    <strong style="color:#dc2626;">14:00 冠宥先走</strong><br>
+    <strong style="color:#dc2626;">13:30 冠宥先走</strong><br>
     <strong style="color:#dc2626;">15:00 全員去機場（放人→還車分流）</strong><br>
     15:15 2司機還車（54分）<br>
     16:10 機場會合<br>
@@ -532,6 +537,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day5_che
   };
   document.body.appendChild(btn);
 })();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
 
 </body>
