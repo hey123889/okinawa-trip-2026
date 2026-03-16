@@ -227,28 +227,14 @@
     font-weight: 700;
     margin-bottom: 10px;
   }
-  .progress-bar-visual {
-    display: flex;
-    height: 6px;
-    border-radius: 3px;
-    overflow: hidden;
-    margin: 16px 16px 0;
-    gap: 2px;
-  }
-  .progress-bar-visual span {
-    flex: 1;
-    border-radius: 3px;
-  }
-  .progress-labels {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 16px 0;
-    font-size: 10px;
-    color: var(--sub);
-  }
-  .now-btn{position:fixed;bottom:20px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
+  .progress-bar-visual{display:flex;height:6px;border-radius:3px;overflow:hidden;margin:12px 16px 0;gap:2px}
+  .progress-bar-visual span{flex:1;border-radius:3px;transition:background .3s}
+  .progress-labels{display:flex;justify-content:space-between;padding:4px 16px 0;font-size:11px;color:var(--sub)}
+  .now-btn{position:fixed;bottom:60px;right:20px;z-index:200;background:#ef4444;color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;gap:6px}
   .now-btn:active{transform:scale(.95)}
   .highlight-card{box-shadow:0 0 0 3px #ef4444 !important;transition:box-shadow .3s}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;display:flex;background:#fff;border-top:1px solid var(--border);box-shadow:0 -2px 8px rgba(0,0,0,.08);padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px}
+.bottom-nav a{flex:1;display:flex;align-items:center;justify-content:center;min-height:40px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;color:#fff}
 </style>
 </head>
 <body>
@@ -258,22 +244,10 @@
   <p>美麗海水族館 + 萬座毛夕陽 + 阿古豬晚餐</p>
 </div>
 
-<!-- Progress bar -->
-<div class="progress-bar-visual">
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
-  <span style="background:#e2e8f0"></span>
+<div class="progress-bar-visual" id="dayProgress">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
 </div>
-<div class="progress-labels">
-  <span>09:30</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span>
-</div>
+<div class="progress-labels"><span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span></div>
 
 <!-- Checklist -->
 <div class="checklist">
@@ -675,7 +649,30 @@
   <a class="nav-btn" href="day5.html" style="background:#8b5cf6;">Day 5 &rarr;</a>
 </div>
 
+<nav class="bottom-nav">
+  <a href="index.html" style="background:#64748b;">總覽</a>
+  <a href="day1.html" style="background:#ef4444;">D1</a>
+  <a href="day2.html" style="background:#f59e0b;">D2</a>
+  <a href="day3.html" style="background:#10b981;">D3</a>
+  <a href="day4.html" style="background:#0ea5e9;">D4</a>
+  <a href="day5.html" style="background:#8b5cf6;">D5</a>
+</nav>
+
 <script>
+document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=function(){this.style.display='none'}});
+// Progress bar
+(function(){
+  var START=9,END=21;
+  var now=new Date();
+  var jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+  var h=jst.getHours()+jst.getMinutes()/60;
+  var spans=document.querySelectorAll('#dayProgress span');
+  var total=spans.length;
+  var pct=(h-START)/(END-START);
+  var filled=Math.min(total,Math.max(0,Math.round(pct*total)));
+  var dayColor='#0ea5e9';
+  for(var i=0;i<total;i++){spans[i].style.background=i<filled?dayColor:'#e2e8f0';}
+})();
 // Checklist localStorage
 document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day4_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
 

@@ -46,6 +46,9 @@
   .highlight-card{box-shadow:0 0 0 3px #ef4444 !important;transition:box-shadow .3s}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;display:flex;background:#fff;border-top:1px solid var(--border);box-shadow:0 -2px 8px rgba(0,0,0,.08);padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px}
 .bottom-nav a{flex:1;display:flex;align-items:center;justify-content:center;min-height:40px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;color:#fff}
+.progress-bar-visual{display:flex;height:6px;border-radius:3px;overflow:hidden;margin:12px 16px 0;gap:2px}
+.progress-bar-visual span{flex:1;border-radius:3px;transition:background .3s}
+.progress-labels{display:flex;justify-content:space-between;padding:4px 16px 0;font-size:11px;color:var(--sub)}
 </style>
 </head>
 <body>
@@ -54,6 +57,11 @@
   <h1>Day 3 — 04/02 (四)</h1>
   <p>退房那霸 → 港川外人住宅 → 來客夢 → 入住恩納別墅</p>
 </div>
+
+<div class="progress-bar-visual" id="dayProgress">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+<div class="progress-labels"><span>08:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span></div>
 
 <div class="checklist">
   <h3>退房前確認</h3>
@@ -483,6 +491,19 @@
 
 <script>
 document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=function(){this.style.display='none'}});
+// Progress bar
+(function(){
+  var START=8,END=21;
+  var now=new Date();
+  var jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+  var h=jst.getHours()+jst.getMinutes()/60;
+  var spans=document.querySelectorAll('#dayProgress span');
+  var total=spans.length;
+  var pct=(h-START)/(END-START);
+  var filled=Math.min(total,Math.max(0,Math.round(pct*total)));
+  var dayColor='#10b981';
+  for(var i=0;i<total;i++){spans[i].style.background=i<filled?dayColor:'#e2e8f0';}
+})();
 // Checklist localStorage
 document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day3_check_'+i;cb.checked=localStorage.getItem(k)==='1';cb.addEventListener('change',()=>{localStorage.setItem(k,cb.checked?'1':'0')})});
 
