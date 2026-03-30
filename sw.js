@@ -1,4 +1,4 @@
-const CACHE_NAME = 'okinawa-trip-v10';
+const CACHE_NAME = 'okinawa-trip-v11';
 const URLS_TO_CACHE = [
   './',
   './index.html',
