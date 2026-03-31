@@ -525,7 +525,7 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img=>{img.onerror=funct
 (function(){
   var START=8,END=20;
   var now=new Date();
-  var jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+  var jst=new Date(now.getTime()+(now.getTimezoneOffset()+9*60)*60000);
   var h=jst.getHours()+jst.getMinutes()/60;
   var spans=document.querySelectorAll('#dayProgress span');
   var total=spans.length;
@@ -541,7 +541,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day5_che
 (function(){
   function getJSTMinutes(){
     const now=new Date();
-    const jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+    const jst=new Date(now.getTime()+(now.getTimezoneOffset()+9*60)*60000);
     return jst.getHours()*60+jst.getMinutes();
   }
   function parseTime(str){
@@ -573,7 +573,7 @@ document.querySelectorAll('.checklist input').forEach((cb,i)=>{const k='day5_che
   btn.innerHTML='📍 現在';
   btn.onclick=function(){
     const now=new Date();
-    const jst=new Date(now.getTime()+(9*60-now.getTimezoneOffset())*60000);
+    const jst=new Date(now.getTime()+(now.getTimezoneOffset()+9*60)*60000);
     const today=jst.getFullYear()+'-'+String(jst.getMonth()+1).padStart(2,'0')+'-'+String(jst.getDate()).padStart(2,'0');
     if(today!==DAY_DATE){
       const days=[{date:'2026-03-31',page:'day1.html'},{date:'2026-04-01',page:'day2.html'},{date:'2026-04-02',page:'day3.html'},{date:'2026-04-03',page:'day4.html'},{date:'2026-04-04',page:'day5.html'}];
